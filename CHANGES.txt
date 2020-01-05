@@ -1,0 +1,12 @@
+tag 9dbbc5e0a8f14e4437fe91d44968777ed76f6313 5.22.1
+Author:	John Stephen <john@wobbleworks.com>
+Date:	Tue Jan 8 10:05:09 2019 -0800
+
+5.22.1
+
+commit 3b5cfd97b115e34596b191615e97177b0a713f03
+Author: John Stephen <john@wobbleworks.com>
+Date:   Tue Jan 8 10:04:23 2019 -0800
+
+    Bumped version
+
