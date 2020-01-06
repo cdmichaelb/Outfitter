@@ -31,7 +31,7 @@ function Outfitter:GenerateSmartOutfit(pName, pStatConfig, pInventoryCache, pAll
 		
 		-- Hard-coded item lists
 		if vStatID then
-			print(vStatID)
+			--print(vStatID)
 			local vStatIDItems = self.cStatIDItems[vStatID]
 			
 			if vStatIDItems then

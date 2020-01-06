@@ -7794,6 +7794,33 @@ function Outfitter:GetTalentTreeName(pIndex)
 	--return vName
 end
 
+function GetSpecialization()
+	--local _, vName = GetSpecializationInfo(pIndex)
+	local vName1, _, vTab1 = GetTalentTabInfo(1)
+	local vName2, _, vTab2 = GetTalentTabInfo(2)
+	local vName3, _, vTab3 = GetTalentTabInfo(3)
+	if vTab1 >= vTab2 and vTab1 >= vTab3 then
+		
+		--print("vTab1")
+		return "1"
+	elseif vTab2 >= vTab1 and vTab2 >= vTab3 then
+		
+		--print("vTab2")
+		return "2"
+	elseif vTab3 >= vTab1 and vTab3 >= vTab2 then
+		
+		--print("vTab3")
+		return "3"
+	elseif nil then
+		return nil
+	else
+		
+		--print("vTab4")
+		return "4"
+	end
+	--return vName
+end
+
 function Outfitter:Run(pText)
 	local vCommand = pText:match("^(/[^%s]+)") or ""
 	local vMessage

@@ -36,7 +36,7 @@ Addon.ItemStatsLib.strings.Power = ATTACK_POWER
 Addon.ItemStatsLib.strings.Dodge = STAT_DODGE
 Addon.ItemStatsLib.strings.ItemLevel = "Item Level"
 Addon.ItemStatsLib.strings.Frost_Res = "Frost Resistance"
-Addon.ItemStatsLib.strings.Nature_Res = "Nature Resistance" --Miv
+Addon.ItemStatsLib.strings.NatureResistance = "Nature Resistance" --Miv
 
 Addon.ItemStatsLib.statNormalization = {}
 Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.Stamina] = "STA"
@@ -49,7 +49,7 @@ Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.Versatility] = "
 Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.Mastery] = "MAS"
 Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.CriticalStrike] = "CRI"
 Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.ItemLevel] = "ITEM_LEVEL"
-Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.Nature_Res] = "NAT_RES"
+Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.NatureResistance] = "Nature Resistance"
 
 function Addon.ItemStatsLib:statsForBagItem(bag, slot)
 	local stats = Addon:new(self._Stats)
