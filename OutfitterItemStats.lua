@@ -282,8 +282,8 @@ Outfitter.SimpleStatCategories =
 		{
 			{ID = "ARCANE_RES"},
 			{ID = "FIRE_RES"},
-			{ID = "FROST_RES", Name = Outfitter.ItemStatsLib.strings.Frost_Res},
-			{ID = "NATURE_RES", Outfitter.ItemStatsLib.strings.Nature_Res}, --Miv
+			{ID = "FROST_RES", Name = Outfitter.ItemStatsLib.strings.FrostResistance},
+			{ID = "NATURE_RES", Name = Outfitter.ItemStatsLib.strings.NatureResistance}, --Miv
 			{ID = "SHADOW_RES"},
 		},
 	},
