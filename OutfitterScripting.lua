@@ -250,7 +250,7 @@ end
 function Outfitter:GenerateSmartUnequipScript(pEventID, pDescription, pUnequipDelay, pIncludeSpecEnables)
 	local vScript
 	local vEventIDs
-	
+	pIncludeSpecEnables = false
 	vEventIDs = pEventID.." NOT_"..pEventID
 	if pIncludeSpecEnables then
 		vEventIDs = vEventIDs.." ACTIVE_TALENT_GROUP_CHANGED"

@@ -35,8 +35,14 @@ Addon.ItemStatsLib.strings.CriticalStrike = "Critical Strike"
 Addon.ItemStatsLib.strings.Power = ATTACK_POWER
 Addon.ItemStatsLib.strings.Dodge = STAT_DODGE
 Addon.ItemStatsLib.strings.ItemLevel = "Item Level"
-Addon.ItemStatsLib.strings.Frost_Res = "Frost Resistance"
-Addon.ItemStatsLib.strings.NatureResistance = "Nature Resistance" --Miv
+Addon.ItemStatsLib.strings.Hit = ITEM_MOD_HIT_RATING_SHORT
+Addon.ItemStatsLib.strings.SpellHit = ITEM_MOD_HIT_SPELL_RATING_SHORT
+
+Addon.ItemStatsLib.strings.FrostResist = RESISTANCE4_NAME
+Addon.ItemStatsLib.strings.NatureResist = RESISTANCE3_NAME --Miv
+Addon.ItemStatsLib.strings.FireResist = RESISTANCE2_NAME
+Addon.ItemStatsLib.strings.ShadowResist = RESISTANCE5_NAME --Miv
+Addon.ItemStatsLib.strings.ArcaneResist = RESISTANCE6_NAME
 
 Addon.ItemStatsLib.statNormalization = {}
 Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.Stamina] = "STA"
@@ -49,7 +55,14 @@ Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.Versatility] = "
 Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.Mastery] = "MAS"
 Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.CriticalStrike] = "CRI"
 Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.ItemLevel] = "ITEM_LEVEL"
-Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.NatureResistance] = "Nature Resistance"
+Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.FireResist] = RESISTANCE2_NAME
+Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.NatureResist] = RESISTANCE3_NAME
+Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.FrostResist] = RESISTANCE4_NAME
+Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.ShadowResist] = RESISTANCE5_NAME
+Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.ArcaneResist] = RESISTANCE6_NAME
+Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.Hit] = ITEM_MOD_HIT_RATING_SHORT
+Addon.ItemStatsLib.statNormalization[Addon.ItemStatsLib.strings.SpellHit] = ITEM_MOD_HIT_SPELL_RATING_SHORT
+
 
 function Addon.ItemStatsLib:statsForBagItem(bag, slot)
 	local stats = Addon:new(self._Stats)
@@ -85,6 +98,10 @@ end
 
 function Addon.ItemStatsLib._Stats:setToLink(link)
 	local stats = Addon.TooltipLib:StatsForLink(link)
+	--print(stats[0])
+	--print(stats[1])
+	--print(stats[2])
+	--print(stats[3])
 	self:setTooltipStats(stats)
 	self:setInfoFromLink(link)
 end
@@ -92,7 +109,9 @@ end
 function Addon.ItemStatsLib._Stats:setTooltipStats(tooltipStats)
 	self.values = {}
 	for key, value in pairs(Addon.ItemStatsLib.statNormalization) do
+		--print("Key: " .. key .. " Value: " .. value)
 		if tooltipStats[key] then
+			--print("Value: " .. value .. " " .. tooltipStats[key])
 			self.values[value] = tooltipStats[key]
 		end
 	end

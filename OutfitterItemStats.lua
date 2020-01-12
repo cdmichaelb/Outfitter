@@ -218,48 +218,48 @@ Outfitter.SimpleStatCategories =
 			{ID = "ITEM_LEVEL", Name = Outfitter.cItemLevelName},
 		},
 	},
---	{
---		CategoryID = "Melee",
---		Name = PLAYERSTAT_MELEE_COMBAT,
---		Stats =
---		{
---			{ID = "MELEE_DMG"},
---			{ID = "MELEE_HASTE_RATING"},
---			{ID = "AP"},
---			{ID = "RANGED_AP"},
---			{ID = "MELEE_HIT_RATING"},
---			{ID = "MELEE_CRIT_RATING"},
---			{ID = "EXPERTISE_RATING"},
---			{ID = "ARMOR_PENETRATION_RATING"},
---		},
---	},
---	{
---		CategoryID = "Ranged",
---		Name = PLAYERSTAT_RANGED_COMBAT,
---		Stats =
---		{
---			{ID = "RANGED_DMG"},
---			{ID = "RANGED_HASTE_RATING"},
---			{ID = "RANGED_AP"},
---			{ID = "RANGED_HIT_RATING"},
---			{ID = "RANGED_CRIT_RATING"},
---		},
---	},
---	{
---		CategoryID = "Spell",
---		Name = PLAYERSTAT_SPELL_COMBAT,
---		Stats =
---		{
---			{ID = "SPELL_DMG"},
---			{ID = "HEAL"},
---			{ID = "SPELL_HIT_RATING"},
---			{ID = "SPELL_CRIT_RATING"},
---			{ID = "SPELL_HASTE_RATING"},
---			{ID = "SPELLPEN"},
---			{ID = "MANA"},
---			{ID = "MANA_REG"},
---		},
---	},
+	{
+		CategoryID = "Melee",
+		Name = PLAYERSTAT_MELEE_COMBAT,
+		Stats =
+		{
+			--{ID = "MELEE_DMG"},
+			--{ID = "MELEE_HASTE_RATING"},
+			--{ID = "AP"},
+			--{ID = "RANGED_AP"},
+			{ID = ITEM_MOD_HIT_RATING_SHORT, Name = Outfitter.ItemStatsLib.strings.Hit},
+			--{ID = "MELEE_CRIT_RATING"},
+			--{ID = "EXPERTISE_RATING"},
+			--{ID = "ARMOR_PENETRATION_RATING"},
+		},
+	},
+	{
+		CategoryID = "Ranged",
+		Name = PLAYERSTAT_RANGED_COMBAT,
+		Stats =
+		{
+			--{ID = "RANGED_DMG"},
+			--{ID = "RANGED_HASTE_RATING"},
+			--{ID = "RANGED_AP"},
+			--{ID = "RANGED_HIT_RATING"},
+			--{ID = "RANGED_CRIT_RATING"},
+		},
+	},
+	{
+		CategoryID = "Spell",
+		Name = PLAYERSTAT_SPELL_COMBAT,
+		Stats =
+		{
+			--{ID = "SPELL_DMG"},
+			--{ID = "HEAL"},
+			{ID = ITEM_MOD_HIT_SPELL_RATING_SHORT, Name = Outfitter.ItemStatsLib.strings.SpellHit},
+			--{ID = "SPELL_CRIT_RATING"},
+			--{ID = "SPELL_HASTE_RATING"},
+			--{ID = "SPELLPEN"},
+			--{ID = "MANA"},
+			--{ID = "MANA_REG"},
+		},
+	},
 --	{
 --		CategoryID = "Defense",
 --		Name = PLAYERSTAT_DEFENSES,
@@ -280,11 +280,11 @@ Outfitter.SimpleStatCategories =
 		Name = Outfitter.cResistCategory,
 		Stats =
 		{
-			{ID = "ARCANE_RES"},
-			{ID = "FIRE_RES"},
-			{ID = "FROST_RES", Name = Outfitter.ItemStatsLib.strings.FrostResistance},
-			{ID = "NATURE_RES", Name = Outfitter.ItemStatsLib.strings.NatureResistance}, --Miv
-			{ID = "SHADOW_RES"},
+			{ID = RESISTANCE6_NAME, Name = Outfitter.ItemStatsLib.strings.ArcaneResist},
+			{ID = RESISTANCE2_NAME, Name = Outfitter.ItemStatsLib.strings.FireResist},
+			{ID = RESISTANCE4_NAME, Name = Outfitter.ItemStatsLib.strings.FrostResist},
+			{ID = ESISTANCE3_NAME, Name = Outfitter.ItemStatsLib.strings.NatureResist}, --Miv
+			{ID = RESISTANCE5_NAME, Name = Outfitter.ItemStatsLib.strings.ShadowResist},
 		},
 	},
 --	{

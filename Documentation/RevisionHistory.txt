@@ -1,3 +1,17 @@
+Version 1.2.0
+
+* Fixed some outfit generation, can now calc by resistance
+
+* Fixed outfitter window position (thanks stefan0uh)
+
+* Fixed various errors
+
+Version 1.0.0 changes
+
+* Initial Commit
+
+--Resetting Versions for Classic
+
 Version 5.20.3 changes
 
 * FIXED: Prevented more custom events from being registered with the system
