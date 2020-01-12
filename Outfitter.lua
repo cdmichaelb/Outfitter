@@ -1,6 +1,5 @@
 ----------------------------------------
 -- Outfitter Copyright 2006-2018 John Stephen
--- All rights reserved, unauthorized redistribution is prohibited
 ----------------------------------------
 
 Outfitter.Debug =

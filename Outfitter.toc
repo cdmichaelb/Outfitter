@@ -1,7 +1,7 @@
 ## Interface: 11302
 ## Author: John Stephen
 ## Title: Outfitter [Classic]
-## Version: 5.22.1.classic
+## Version: 1.2.0
 ## Notes: Clothing and weapon management and automated equipment changes. Updated for classic by Miv(aka Restoshaman) of <Onslaught>.
 ## OptionalDeps: 
 ## RequiredDeps: 

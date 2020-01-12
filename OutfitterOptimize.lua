@@ -20,7 +20,7 @@ Outfitter.cStatIDItems =
 
 function Outfitter:GenerateSmartOutfit(pName, pStatConfig, pInventoryCache, pAllowEmptyOutfit, pCompletionFunc)
 	pInventoryCache:ResetIgnoreItemFlags()
-	
+	--print(pStatConfig)
 	if type(pStatConfig) == "string" then
 		local vStatID = pStatConfig
 		
@@ -63,9 +63,10 @@ function Outfitter:GenerateSmartOutfit(pName, pStatConfig, pInventoryCache, pAll
 		
 		if not vStat then
 			Outfitter:ErrorMessage("Unknown stat ID: %s", tostring(vConfig.StatID))
+			--print("Unknown stat ID: %s", tostring(vConfig.StatID))
 			return
 		end
-		
+		--print(vConfig.StatID)
 		table.insert(vStatConfig, {Stat = vStat, StatID = vConfig.StatID, MinValue = vConfig.MinValue, MaxValue = vConfig.MaxValue})
 	end
 
