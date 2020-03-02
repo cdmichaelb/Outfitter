@@ -1,0 +1,36 @@
+lightweight tag 7badfac62131358ba5e99c4c03505b6093f1291a 1.2.0
+Author:	GitHub <noreply@github.com>
+Date:	Sun Jan 12 13:47:58 2020 -0800
+
+commit 0932fd1eccc139918b59762255ecdc95650341e2
+Author: cdmichaelb <broetjem@gmail.com>
+Date:   Sun Jan 12 13:46:31 2020 -0800
+
+    1.2.0
+    
+    Fixed outfit generation for resistances, melee hit, spell hit
+    Fix a few bugs reported on curseforge
+    Changed versioning to make more sense.
+
+commit 0932fd1eccc139918b59762255ecdc95650341e2
+Author: cdmichaelb <broetjem@gmail.com>
+Date:   Sun Jan 12 13:46:31 2020 -0800
+
+    1.2.0
+    
+    Fixed outfit generation for resistances, melee hit, spell hit
+    Fix a few bugs reported on curseforge
+    Changed versioning to make more sense.
+
+commit 7608b4fecb7c6214a214db42d429a1b5b53faee1
+Author: Stefan <>
+Date:   Sat Jan 11 20:56:10 2020 +0100
+
+    OutfitterButton and Frame position fix
+
+commit 7608b4fecb7c6214a214db42d429a1b5b53faee1
+Author: Stefan <>
+Date:   Sat Jan 11 20:56:10 2020 +0100
+
+    OutfitterButton and Frame position fix
+
