@@ -1281,6 +1281,18 @@
 							<OnLoad>self.SlotName = "SecondaryHandSlot"</OnLoad>
 						</Scripts>
 					</CheckButton>
+					<CheckButton name="OutfitterEnableRangedSlot" inherits="OutfitterEnableTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="CharacterRangedSlot">
+								<Offset>
+									<AbsDimension x="-4" y="4"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnLoad>self.SlotName = "RangedSlot"</OnLoad>
+						</Scripts>
+					</CheckButton>
 				</Frames>
 				<Scripts>
 					<OnShow>

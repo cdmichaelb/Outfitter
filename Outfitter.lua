@@ -807,6 +807,7 @@ Outfitter.cSlotNames =
 	
 	"MainHandSlot",
 	"SecondaryHandSlot",
+	"RangedSlot",
 	
 	-- Last priority goes to items with no durability
 	
@@ -846,6 +847,7 @@ Outfitter.cSlotDisplayNames =
 	Trinket1Slot = Outfitter.cTrinket1SlotName,
 	MainHandSlot = MAINHANDSLOT,
 	SecondaryHandSlot = SECONDARYHANDSLOT,
+	RangedSlot = RANGEDSLOT,
 }
 
 Outfitter.cInvTypeToSlotName =
@@ -871,10 +873,11 @@ Outfitter.cInvTypeToSlotName =
 	INVTYPE_WEAPONMAINHAND = {SlotName = "MainHandSlot"},
 	INVTYPE_WEAPONOFFHAND = {SlotName = "SecondaryHandSlot"},
 	INVTYPE_WRIST = {SlotName = "WristSlot"},
-	INVTYPE_RANGED = {SlotName = "MainHandSlot"},
-	INVTYPE_RANGEDRIGHT = {SlotName = "MainHandSlot"},
+	INVTYPE_RANGED = {SlotName = "RangedSlot"},
+	INVTYPE_RANGEDRIGHT = {SlotName = "RangedSlot"},
 	INVTYPE_THROWN = {SlotName = "MainHandSlot"},
 	INVTYPE_RELIC = {SlotName = "MainHandSlot"},
+
 }
 
 Outfitter.cHalfAlternateStatSlot =
@@ -6118,7 +6121,7 @@ function Outfitter:CheckDatabase()
 	end
 	
 	-- Remove ranged slot (WoW patch 5)
-	
+--[[	
 	if self.Settings.Version < 19 then
 		if self.Settings.Outfits then
 			for vCategoryID, vOutfits in pairs(self.Settings.Outfits) do
@@ -6130,7 +6133,7 @@ function Outfitter:CheckDatabase()
 			end
 		end
 		self.Settings.Version = 19
-	end
+	end--]]
 	
 	--[[ Added ID11,12 and 13 for WoW patch 6
 

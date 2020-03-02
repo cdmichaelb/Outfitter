@@ -1,12 +1,36 @@
-tag 9dbbc5e0a8f14e4437fe91d44968777ed76f6313 5.22.1
-Author:	John Stephen <john@wobbleworks.com>
-Date:	Tue Jan 8 10:05:09 2019 -0800
+lightweight tag 7badfac62131358ba5e99c4c03505b6093f1291a 1.2.0
+Author:	GitHub <noreply@github.com>
+Date:	Sun Jan 12 13:47:58 2020 -0800
 
-5.22.1
+commit 0932fd1eccc139918b59762255ecdc95650341e2
+Author: cdmichaelb <broetjem@gmail.com>
+Date:   Sun Jan 12 13:46:31 2020 -0800
 
-commit 3b5cfd97b115e34596b191615e97177b0a713f03
-Author: John Stephen <john@wobbleworks.com>
-Date:   Tue Jan 8 10:04:23 2019 -0800
+    1.2.0
+    
+    Fixed outfit generation for resistances, melee hit, spell hit
+    Fix a few bugs reported on curseforge
+    Changed versioning to make more sense.
 
-    Bumped version
+commit 0932fd1eccc139918b59762255ecdc95650341e2
+Author: cdmichaelb <broetjem@gmail.com>
+Date:   Sun Jan 12 13:46:31 2020 -0800
+
+    1.2.0
+    
+    Fixed outfit generation for resistances, melee hit, spell hit
+    Fix a few bugs reported on curseforge
+    Changed versioning to make more sense.
+
+commit 7608b4fecb7c6214a214db42d429a1b5b53faee1
+Author: Stefan <>
+Date:   Sat Jan 11 20:56:10 2020 +0100
+
+    OutfitterButton and Frame position fix
+
+commit 7608b4fecb7c6214a214db42d429a1b5b53faee1
+Author: Stefan <>
+Date:   Sat Jan 11 20:56:10 2020 +0100
+
+    OutfitterButton and Frame position fix
 
