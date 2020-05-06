@@ -354,9 +354,9 @@ if GetLocale() == "frFR" then
 	Outfitter.cScriptLabel = "Scripte:"
 
 	Outfitter.cNone = "None"
-	Outfitter.cUseTooltipLineFormat = "^Utiliser:.*"
-	Outfitter.cUseDurationTooltipLineFormat = "^Utiliser:.*pendant (%d+) seconds"
-	Outfitter.cUseDurationTooltipLineFormat2 = "^Utiliser:.*Dure (%d+) sec"
+	Outfitter.cUseTooltipLineFormat = "^Utiliser : .*"
+	Outfitter.cUseDurationTooltipLineFormat = "^Utiliser : .*pendant (%d+) sec"
+	Outfitter.cUseDurationTooltipLineFormat2 = "^Utiliser : .*Dure (%d+) sec"
 	
 	Outfitter.cAutoChangesDisabled = "Automated changes are now disabled"
 	Outfitter.cAutoChangesEnabled = "Automated changes are now enabled"
