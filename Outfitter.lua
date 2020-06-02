@@ -1158,7 +1158,7 @@ Outfitter.cPanelFrames =
 
 Outfitter.cShapeshiftIDInfo = {
 	-- Druid
-	[5487] = {ID = "Bear", MaybeInCombat = true},
+	[9634] = {ID = "Bear", MaybeInCombat = true},
 	[768] = {ID = "Cat"},
 	[783] = {ID = "Travel"},
 	[24858] = {ID = "Moonkin"},
@@ -6336,7 +6336,7 @@ end
 
 function Outfitter:DepositOutfit(pOutfit, pUniqueItemsOnly)
 	local vUnequipOutfit, vInventoryCache = self:GetDepositList(pOutfit, pUniqueItemsOnly)
-	
+
 	-- Build the change list
 	
 	vInventoryCache:ResetIgnoreItemFlags()
@@ -6365,7 +6365,7 @@ function Outfitter:DepositOutfit(pOutfit, pUniqueItemsOnly)
 	local vEmptyBankSlots = self:GetEmptyBankSlotList()
 	
 	-- Execute the changes
-	vEquipmentChangeList:execute(vEmptyBankSlots, vExpectedInventoryCache)
+	vEquipmentChangeList:execute(vEmptyBankSlots, vInventoryCache)
 	
 	self:DispatchOutfitEvent("EDIT_OUTFIT", pOutfit:GetName(), pOutfit)
 end
