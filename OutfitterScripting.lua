@@ -578,6 +578,7 @@ end
 -- $EVENTS TIMER
 -- $DESC The highest trinket in the list that isn't on cooldown will automatically be equipped for you
 
+-- $SETTING Buffcheck={label="Not if Buff", type="stringtable"}
 -- $SETTING Trinkets={label="Upper slot", type="stringtable"}
 -- $SETTING Trinkets2={label="Lower slot", type="stringtable"}
 
@@ -589,6 +590,18 @@ end
 
 if not isEquipped then
    return
+end
+
+if setting.Buffcheck and #setting.Buffcheck > 0 then
+    local i = 1
+    local buff = UnitBuff("player", i)
+    while buff do
+        for j=0,#setting.Buffcheck,1 do
+            if buff == setting.Buffcheck[j] then return end
+        end;
+        i = i + 1
+        buff = UnitBuff("player", i)
+    end
 end
 
 local itemInfo0, itemInfo1
