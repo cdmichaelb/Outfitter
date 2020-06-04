@@ -1158,6 +1158,7 @@ Outfitter.cPanelFrames =
 
 Outfitter.cShapeshiftIDInfo = {
 	-- Druid
+	[5487] = {ID = "Bear", MaybeInCombat = true},
 	[9634] = {ID = "Bear", MaybeInCombat = true},
 	[768] = {ID = "Cat"},
 	[783] = {ID = "Travel"},
@@ -4234,9 +4235,9 @@ function Outfitter:UpdateAuraStates()
 	-- NOTE: Currently (WoW client 2.3) the shapeshift info isn't
 	-- always up-to-date when the AURA event comes in, so update
 	-- the shapeshift state after about 1 frame to allow the state to
-	-- synch
+	-- synch (Changed to .5 sec)
 	
-	self.SchedulerLib:ScheduleUniqueTask(0.01, self.UpdateShapeshiftState, self)
+	self.SchedulerLib:ScheduleUniqueTask(0.5, self.UpdateShapeshiftState, self)
 end
 
 function Outfitter:UpdateMountedState()
