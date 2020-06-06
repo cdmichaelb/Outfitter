@@ -1207,15 +1207,18 @@ function Outfitter.OutfitBar.TextureSets.Spellbook:Activate()
 	local usedIconIDs = {}
 	
 	-- Insert the profession icons
-	local professions = {GetProfessions()}
-	for _, professionID in ipairs(professions) do
-		local name, iconID = GetProfessionInfo(professionID)
-		if not usedIconIDs[iconID] then
-			table.insert(self.TextureList, iconID)
-			usedIconIDs[iconID] = true
+	if GetNumPrimaryProfessions() then
+		local professions = {GetNumPrimaryProfessions()}
+
+		for _, professionID in ipairs(professions) do
+			local name, iconID = GetProfessionInfo(professionID)
+			if not usedIconIDs[iconID] then
+				table.insert(self.TextureList, iconID)
+				usedIconIDs[iconID] = true
+			end
 		end
 	end
-
+	
 	-- Insert the spellbook category icons together
 	for tabIndex = 1, MAX_SKILLLINE_TABS do
 		local	categoryName, categoryIconID, categoryOffset, categoryNumSpells = GetSpellTabInfo(tabIndex)
