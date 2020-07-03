@@ -244,7 +244,7 @@ function Outfitter._OutfitMethods:CheckOutfit(pCategoryID)
 	end
 	
 	-- Ammo slot is no longer in the game, ensure it's removed from the database too
-	self.Items.AmmoSlot = nil;
+	self.Items.AmmoSlot = "AmmoSlot"; --Attempt to reenable ammo slot.
 	
 	for vInventorySlot, vItem in pairs(self.Items) do
 		for vField, vDefaultValue in pairs(self.DefaultRepairValues) do
