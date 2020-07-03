@@ -3959,7 +3959,8 @@ function Outfitter:GetNewItemsOutfit(pPreviousOutfit)
 		local vSkipSlot = false
 		
 		if vInventorySlot == "SecondaryHandSlot" then
-			local vMainHandItem = pPreviousOutfit:GetItem("MainHandSlot")
+			--local vMainHandItem = pPreviousOutfit:GetItem("MainHandSlot") xysis00 
+			local vMainHandItem = self.CurrentInventoryOutfit:GetItem("MainHandSlot")
 			
 			if not vMainHandItem then
 				--self:DebugMessage("MainHandItem is nil")
