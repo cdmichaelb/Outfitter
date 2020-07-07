@@ -1,7 +1,7 @@
-## Interface: 11304
+## Interface: 11305
 ## Author: Restoshaman (Skeram)
 ## Title: Outfitter [Classic]
-## Version: 1.2.8
+## Version: 1.2.9
 ## Notes: Clothing and weapon management and automated equipment changes. Updated for classic by Miv(aka Restoshaman) of <Onslaught>.
 ## OptionalDeps: 
 ## RequiredDeps: 
