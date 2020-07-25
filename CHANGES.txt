@@ -1,22 +1,12 @@
-lightweight tag b6b6e5a314c6cb56c537fe6b7fadad6236137884 1.2.3
+lightweight tag 303af9fa32bd39460c6f33dece77a5fb82b5e5f1 1.2.9
 Author:	GitHub <noreply@github.com>
-Date:	Tue May 5 22:58:15 2020 -0700
+Date:	Tue Jul 7 15:04:04 2020 -0700
 
-commit 989ce65d3276c2b0eac3819f7b9988c651de9ce7
-Author: Llamatron2112 <Llamatron2112@users.noreply.github.com>
-Date:   Wed May 6 05:33:07 2020 +0200
+commit 303af9fa32bd39460c6f33dece77a5fb82b5e5f1
+Author: cdmichaelb <broetjem@gmail.com>
+Date:   Tue Jul 7 15:04:04 2020 -0700
 
-    parsing french tooltips for duration fix
+    Update Outfitter.toc
     
-    I haven't tested cUseTooltipLineFormat and cUseDurationTooltipLineFormat2, but there should be spaces around the colon (and it's the case of several items I have which match cUseDurationTooltipLineFormat).
-    Also for cUseDurationTooltipLineFormat, french for "seconds" is "secondes", but I have only seen the short "sec." on my items.
-
-commit 989ce65d3276c2b0eac3819f7b9988c651de9ce7
-Author: Llamatron2112 <Llamatron2112@users.noreply.github.com>
-Date:   Wed May 6 05:33:07 2020 +0200
-
-    parsing french tooltips for duration fix
-    
-    I haven't tested cUseTooltipLineFormat and cUseDurationTooltipLineFormat2, but there should be spaces around the colon (and it's the case of several items I have which match cUseDurationTooltipLineFormat).
-    Also for cUseDurationTooltipLineFormat, french for "seconds" is "secondes", but I have only seen the short "sec." on my items.
+    update toc
 
