@@ -1167,6 +1167,9 @@ Outfitter.cShapeshiftIDInfo = {
 
 	-- Rogue
 	[1784] = {ID = "Stealth"},
+	[1785] = {ID = "Stealth"},
+	[1786] = {ID = "Stealth"},
+	[1787] = {ID = "Stealth"}
 }
 
 function Outfitter:ToggleOutfitterFrame()
@@ -4111,7 +4114,7 @@ function Outfitter:GetPlayerAuraStates()
 	end
 	
 	while true do
-		local vName, _, vTexture, _, _, _, _, _, _, _, vSpellID = UnitBuff("player", vBuffIndex) 
+		local vName, vTexture, _, _, _, _, _, _, _, vSpellID = UnitBuff("player", vBuffIndex) --local vName, _, vTexture, _, _, _, _, _, _, _, vSpellID = UnitBuff("player", vBuffIndex) 
 		
 		if not vName then
 			return self.AuraStates

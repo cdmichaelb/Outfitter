@@ -524,7 +524,12 @@ function Outfitter._EquipmentChanges:execute(emptyBagSlots, expectedInventoryCac
 		
 		-- Remove the item
 		else
-			Outfitter:UnequipSlotID(equipmentChange.SlotID, emptyBagSlots, expectedInventoryCache)
+			--Outfitter:UnequipSlotID(equipmentChange.SlotID, emptyBagSlots, expectedInventoryCache)
+	   		if equipmentChange.SlotID ~= nil then
+   				Outfitter:UnequipSlotID(equipmentChange.SlotID, emptyBagSlots, expectedInventoryCache)
+   			else
+   				Outfitter:UnequipSlotID(equipmentChange.FromLocation, emptyBagSlots, expectedInventoryCache)
+   			end
 		end
 	end
 	
