@@ -2056,6 +2056,60 @@ function Outfitter:AddOutfitMenu(menu, outfit)
 			startIndex = endIndex + 1
 		end
 	end)
+	
+	-- Outfit Display
+	menu:AddChildMenu(self.cOutfitDisplay, function (submenu)
+		
+		-- Helm
+		submenu:AddCategoryTitle(self.cHelm)
+		submenu:AddToggle(self.cDontChange,
+			function ()
+				return outfit.ShowHelm == nil
+			end,
+			function ()
+				self:PerformAction("IGNOREHELM", outfit)
+			end)
+		submenu:AddToggle(self.cShow,
+			function ()
+				return outfit.ShowHelm == true
+			end,
+			function ()
+				self:PerformAction("SHOWHELM", outfit)
+			end)
+		submenu:AddToggle(self.cHide,
+			function ()
+				return outfit.ShowHelm == false
+			end,
+			function ()
+				self:PerformAction("HIDEHELM", outfit)
+			end)
+		
+		-- Cloak
+		submenu:AddCategoryTitle(self.cCloak)
+		submenu:AddToggle(self.cDontChange,
+			function ()
+				return outfit.ShowCloak == nil
+			end,
+			function ()
+				self:PerformAction("IGNORECLOAK", outfit)
+			end)
+		submenu:AddToggle(self.cShow,
+			function ()
+				return outfit.ShowCloak == true
+			end,
+			function ()
+				self:PerformAction("SHOWCLOAK", outfit)
+			end)
+		submenu:AddToggle(self.cHide,
+			function ()
+				return outfit.ShowCloak == false
+			end,
+			function ()
+				self:PerformAction("HIDECLOAK", outfit)
+			end)
+
+	end)
+	
 	menu:AddChildMenu(self.cBankCategoryTitle, function (submenu)
 		submenu:AddFunction(self.cDepositToBank, function () self:PerformAction("DEPOSIT", outfit) end, not self.BankFrameIsOpen)
 		submenu:AddFunction(self.cDepositUniqueToBank, function () self:PerformAction("DEPOSITUNIQUE", outfit) end, not self.BankFrameIsOpen)
@@ -5864,6 +5918,42 @@ function Outfitter:SetScriptEnabled(pOutfit, pEnable)
 		self:ActivateScript(pOutfit)
 	end
 	
+	self:OutfitSettingsChanged(pOutfit)
+end
+
+function Outfitter.OutfitMenuActions:SHOWHELM(pOutfit)
+	pOutfit.ShowHelm = true
+	self.OutfitStack:UpdateOutfitDisplay()
+	self:OutfitSettingsChanged(pOutfit)
+end
+
+function Outfitter.OutfitMenuActions:HIDEHELM(pOutfit)
+	pOutfit.ShowHelm = false
+	self.OutfitStack:UpdateOutfitDisplay()
+	self:OutfitSettingsChanged(pOutfit)
+end
+
+function Outfitter.OutfitMenuActions:IGNOREHELM(pOutfit)
+	pOutfit.ShowHelm = nil
+	self.OutfitStack:UpdateOutfitDisplay()
+	self:OutfitSettingsChanged(pOutfit)
+end
+
+function Outfitter.OutfitMenuActions:SHOWCLOAK(pOutfit)
+	pOutfit.ShowCloak = true
+	self.OutfitStack:UpdateOutfitDisplay()
+	self:OutfitSettingsChanged(pOutfit)
+end
+
+function Outfitter.OutfitMenuActions:HIDECLOAK(pOutfit)
+	pOutfit.ShowCloak = false
+	self.OutfitStack:UpdateOutfitDisplay()
+	self:OutfitSettingsChanged(pOutfit)
+end
+
+function Outfitter.OutfitMenuActions:IGNORECLOAK(pOutfit)
+	pOutfit.ShowCloak = nil
+	self.OutfitStack:UpdateOutfitDisplay()
 	self:OutfitSettingsChanged(pOutfit)
 end
 

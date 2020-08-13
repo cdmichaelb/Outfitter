@@ -224,6 +224,8 @@ Outfitter.cShowInCombat = "Show in combat"
 Outfitter.cHide = "Hide"
 Outfitter.cDontChange = "Don't change"
 
+Outfitter.cHelm = "Helm"
+Outfitter.cCloak = "Cloak"
 Outfitter.cPlayerTitle = "Title"
 
 Outfitter.cMore = "More"
