@@ -1238,13 +1238,33 @@ function Outfitter.OutfitStack:IsTopmostOutfit(pOutfit)
 end
 
 function Outfitter.OutfitStack:UpdateOutfitDisplay()
-	local vShowTitleID
+	local vShowHelm, vShowCloak, vShowTitleID
 	
 	for vIndex, vOutfit in ipairs(self.Outfits) do
+		if vOutfit.ShowHelm ~= nil then
+			vShowHelm = vOutfit.ShowHelm
+		end
+		
+		if vOutfit.ShowCloak ~= nil then
+			vShowCloak = vOutfit.ShowCloak
+		end
+		
 		if vOutfit.ShowTitleID ~= nil then
 			vShowTitleID = vOutfit.ShowTitleID
 		end
 	end -- for
+	
+	if vShowHelm == true then
+		ShowHelm(true)
+	elseif vShowHelm == false then
+		ShowHelm(false)
+	end
+	
+	if vShowCloak == true then
+		ShowCloak(true)
+	elseif vShowCloak == false then
+		ShowCloak(false)
+	end
 	
 	if vShowTitleID ~= nil
 	and Outfitter.HasHWEvent then
