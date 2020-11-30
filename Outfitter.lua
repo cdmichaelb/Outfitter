@@ -954,6 +954,7 @@ Outfitter.cSpecialIDEvents =
 	GhostWolf = {Equip = "GHOST_WOLF", Unequip = "NOT_GHOST_WOLF"},
 
 	Feigning = {Equip = "FEIGN_DEATH", Unequip = "NOT_FEIGN_DEATH"},
+	Hawk = {Equip = "HAWK", Unequip = "NOT_HAWK"},
 	
 	Evocate = {Equip = "EVOCATE", Unequip = "NOT_EVOCATE"},
 	
