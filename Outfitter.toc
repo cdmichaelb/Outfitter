@@ -1,4 +1,4 @@
-## Interface: 11305
+## Interface: 20501
 ## Author: Restoshaman (Skeram)
 ## Title: Outfitter [Classic]
 ## Version: 1.3.0
