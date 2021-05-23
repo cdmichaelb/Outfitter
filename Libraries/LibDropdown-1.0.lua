@@ -316,7 +316,7 @@ end
 -- Pool methods
 local frameCount = 0
 function NewDropdownFrame()
-	local frame = CreateFrame("Frame", "LibDropdownFrame" .. frameCount, UIParent)
+	local frame = CreateFrame("Frame", "LibDropdownFrame" .. frameCount, UIParent, BackdropTemplateMixin and "BackdropTemplate")
 	frameCount = frameCount + 1
 	frame:SetPoint("CENTER", UIParent, "CENTER")
 	frame:SetWidth(10)
