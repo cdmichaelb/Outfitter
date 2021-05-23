@@ -1,7 +1,7 @@
 ## Interface: 20501
 ## Author: Restoshaman (Skeram)
 ## Title: Outfitter [TBC Classic]
-## Version: 1.3.0
+## Version: 2.0.0
 ## Notes: Clothing and weapon management and automated equipment changes. Updated for classic by Miv(aka Restoshaman) of <Onslaught>.
 ## OptionalDeps: 
 ## RequiredDeps: 
