@@ -181,7 +181,7 @@ Addon.UIElementsLib._ModalDialogFrame = {}
 ----------------------------------------
 
 function Addon.UIElementsLib._ModalDialogFrame:New(pParent, pTitle, pWidth, pHeight)
-	return CreateFrame("Frame", nil, pParent)
+	return CreateFrame("Frame", nil, pParent, BackdropTemplateMixin and "BackdropTemplate")
 end
 
 function Addon.UIElementsLib._ModalDialogFrame:Construct(pParent, pTitle, pWidth, pHeight)
@@ -967,7 +967,7 @@ Addon.UIElementsLib._Window = {}
 ----------------------------------------
 
 function Addon.UIElementsLib._Window:New()
-	return CreateFrame("Frame", nil, UIParent)
+	return CreateFrame("Frame", nil, UIParent, BackdropTemplateMixin and "BackdropTemplate")
 end
 
 function Addon.UIElementsLib._Window:Construct()
@@ -1666,7 +1666,7 @@ Addon.UIElementsLib._Section = {}
 ----------------------------------------
 
 function Addon.UIElementsLib._Section:New(pParent, pTitle)
-	return CreateFrame("Frame", nil, pParent)
+	return CreateFrame("Frame", nil, pParent, BackdropTemplateMixin and "BackdropTemplate")
 end
 
 function Addon.UIElementsLib._Section:Construct(pParent, pTitle)
