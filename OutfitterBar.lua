@@ -1370,7 +1370,7 @@ Outfitter.OutfitBar._SettingsDialog = {}
 ----------------------------------------
 
 function Outfitter.OutfitBar._SettingsDialog:New()
-	local vSettingsDialog = CreateFrame("Frame", "OutfitBarSettingsDialog", UIParent)
+	local vSettingsDialog = CreateFrame("Frame", "OutfitBarSettingsDialog", UIParent, "BackdropTemplate")
 	
 	Outfitter:ConstructFrame(vSettingsDialog, self)
 	
