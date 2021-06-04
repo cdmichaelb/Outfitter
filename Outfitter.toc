@@ -2,7 +2,7 @@
 ## Author: Restoshaman (Skeram)
 ## Title: Outfitter [Classic]
 ## Version: 2.0.4
-## Notes: Clothing and weapon management and automated equipment changes. Updated for classic by Miv(aka Restoshaman) of <Onslaught>.
+## Notes: Clothing and weapon management and automated equipment changes. Updated for classic by Miv(aka Restoshaman) of <Insidious>.
 ## OptionalDeps: 
 ## RequiredDeps: 
 ## SavedVariablesPerCharacter: gOutfitter_Settings
