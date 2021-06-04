@@ -7167,7 +7167,7 @@ end
 
 function Outfitter:InventoryItemIsActive(pInventorySlot)
 	-- See if the item is on cooldown at all
-	
+	if pInventorySlot == nil then return false end
 	local vSlotID = self.cSlotIDs[pInventorySlot]
 	local vItemLink = self:GetInventorySlotIDLink(vSlotID)
 	local vItemCode = self:GetSlotIDLinkInfo(vSlotID)[1]
