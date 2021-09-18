@@ -100,6 +100,7 @@ Outfitter.ScriptModules.DruidShapeshift.Settings =
 	{id = "Travel", type = "boolean", label = "Travel form"},
 	{id = "Moonkin", type = "boolean", label = "Moonkin form"},
 	{id = "Tree", type = "boolean", label = "Tree form"},
+	{id = "Flight", type = "boolean", label = "Swift Flight form"},
 }
 
 Outfitter.ScriptModules.DruidShapeshift.Events =
@@ -110,6 +111,7 @@ Outfitter.ScriptModules.DruidShapeshift.Events =
 	Travel = "TRAVEL_FORM",
 	Moonkin = "MOONKIN_FORM",
 	Tree = "TREE_FORM",
+	Flight = "SWIFT_FLIGHT_FORM"
 }
 
 function Outfitter.ScriptModules.DruidShapeshift:GetEquipHeader(pSettings)
@@ -1037,6 +1039,12 @@ end
 		ID = "Travel",
 		Class = "DRUID",
 		Script = Outfitter:GenerateDruidShapeshiftScript("TRAVEL_FORM", "This outfit will be worn whenever you're in Travel Form"),
+	},
+	{
+		Name = Outfitter.cDruidSwiftFlightForm,
+		ID = "Flight",
+		Class = "DRUID",
+		Script = Outfitter:GenerateDruidShapeshiftScript("SWIFT_FLIGHT_FORM", "This outfit will be worn whenever you're in Swift Flight Form"),
 	},
 	{
 		Name = Outfitter.cDruidMoonkinForm,
