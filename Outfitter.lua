@@ -525,6 +525,9 @@ Outfitter.BuiltinEvents = {
 	["TRAVEL_FORM"] = true,
 	["NOT_TRAVEL_FORM"] = true,
 	
+	["SWIFT_FLIGHT_FORM"] = true,
+	["NOT_SWIFT_FLIGHT_FORM"] = true,
+	
 	["MOONKIN_FORM"] = true,
 	["NOT_MOONKIN_FORM"] = true,
 
@@ -1164,6 +1167,7 @@ Outfitter.cShapeshiftIDInfo = {
 	[768] = {ID = "Cat"},
 	[783] = {ID = "Travel"},
 	[24858] = {ID = "Moonkin"},
+	[40120] = {ID = "Swift Flight"},
 	CasterForm = {ID = "Caster"}, -- this is a psuedo-form which is active when no other druid form is
 
 	-- Rogue
