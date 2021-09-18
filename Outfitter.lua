@@ -947,6 +947,7 @@ Outfitter.cSpecialIDEvents =
 	Bear = {Equip = "BEAR_FORM", Unequip = "NOT_BEAR_FORM"},
 	Cat = {Equip = "CAT_FORM", Unequip = "NOT_CAT_FORM"},
 	Travel = {Equip = "TRAVEL_FORM", Unequip = "NOT_TRAVEL_FORM"},
+	Flight = {Equip = "SWIFT_FLIGHT_FORM", Unequip = "NOT_SWIFT_FLIGHT_FORM"},
 	Moonkin = {Equip = "MOONKIN_FORM", Unequip = "NOT_MOONKIN_FORM"},
 	Tree = {Equip = "TREE_FORM", Unequip = "NOT_TREE_FORM"},
 	Prowl = {Equip = "STEALTH", Unequip = "NOT_STEALTH"},
@@ -998,6 +999,7 @@ Outfitter.cClassSpecialOutfits =
 		{Name = Outfitter.cDruidBearForm, ScriptID = "Bear"},
 		{Name = Outfitter.cDruidCatForm, ScriptID = "Cat"},
 		{Name = Outfitter.cDruidTravelForm, ScriptID = "Travel"},
+		{Name = Outfitter.cDruidSwiftFlightForm, ScriptID = "Flight"},
 		{Name = Outfitter.cDruidMoonkinForm, ScriptID = "Moonkin"},
 		{Name = Outfitter.cDruidTreeOfLifeForm, ScriptID = "Tree"},
 		{Name = Outfitter.cDruidProwl, ScriptID = "Prowl"},
@@ -1167,7 +1169,7 @@ Outfitter.cShapeshiftIDInfo = {
 	[768] = {ID = "Cat"},
 	[783] = {ID = "Travel"},
 	[24858] = {ID = "Moonkin"},
-	[40120] = {ID = "Swift Flight"},
+	[40120] = {ID = "Flight"},
 	CasterForm = {ID = "Caster"}, -- this is a psuedo-form which is active when no other druid form is
 
 	-- Rogue
