@@ -878,8 +878,8 @@ Outfitter.cInvTypeToSlotName =
 	INVTYPE_WRIST = {SlotName = "WristSlot"},
 	INVTYPE_RANGED = {SlotName = "RangedSlot"},
 	INVTYPE_RANGEDRIGHT = {SlotName = "RangedSlot"},
-	INVTYPE_THROWN = {SlotName = "MainHandSlot"},
-	INVTYPE_RELIC = {SlotName = "MainHandSlot"},
+	INVTYPE_THROWN = {SlotName = "RangedSlot"},
+	INVTYPE_RELIC = {SlotName = "RangedSlot"},
 
 }
 
