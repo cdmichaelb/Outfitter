@@ -93,8 +93,11 @@ end
 
 -- Make the frame match the tooltip
 local function InitializeFrame(frame)
-	-- local backdrop = GameTooltip:GetBackdrop()
-	local backdrop = GameTooltip.NineSlice:GetBackdrop()
+        if not GameTooltip.GetBackdrop then
+            Mixin(GameTooltip, BackdropTemplateMixin)
+        end
+
+	local backdrop = GameTooltip:GetBackdrop()
 
 	frame:SetBackdrop(backdrop)
 
