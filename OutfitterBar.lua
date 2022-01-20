@@ -1,3 +1,13 @@
+-- Global Backdrops
+BACKDROP_OUTFITTER_DIALOG_32_32 = {
+	bgFile = "Interface\\Addons\\Outfitter\\Textures\\DialogBox-Background",
+	edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+	tile = true,
+	tileSize = 32,
+	edgeSize = 32,
+	insets = { left = 11, right = 12, top = 12, bottom = 11 },
+}
+
 ----------------------------------------
 Outfitter.OutfitBar = {}
 ----------------------------------------

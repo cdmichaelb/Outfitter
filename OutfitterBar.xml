@@ -1,18 +1,10 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
 	
-	<Frame name="OutfitterDialogFrameTemplate" setAllPoints="true" virtual="true">
-		<Backdrop bgFile="Interface\Addons\Outfitter\Textures\DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-			<BackgroundInsets>
-				<AbsInset left="11" right="12" top="12" bottom="11"/>
-			</BackgroundInsets>
-			<TileSize>
-				<AbsValue val="32"/>
-			</TileSize>
-			<EdgeSize>
-				<AbsValue val="32"/>
-			</EdgeSize>
-		</Backdrop>
+	<Frame name="OutfitterDialogFrameTemplate" setAllPoints="true" virtual="true" inherits="BackdropTemplate" inherit="prepend">
+		<KeyValues>
+			<KeyValue key="backdropInfo" value="BACKDROP_OUTFITTER_DIALOG_32_32" type="global"/>
+		</KeyValues>
 		<Scripts>
 			<OnShow>
 				self:SetFrameLevel(self:GetParent():GetFrameLevel())

@@ -93,15 +93,25 @@ end
 
 -- Make the frame match the tooltip
 local function InitializeFrame(frame)
-	-- local backdrop = GameTooltip:GetBackdrop()
-	local backdrop = GameTooltip.NineSlice:GetBackdrop()
-
-	frame:SetBackdrop(backdrop)
-
-	if backdrop then
-		frame:SetBackdropColor(GameTooltip:GetBackdropColor())
-		frame:SetBackdropBorderColor(GameTooltip:GetBackdropBorderColor())
+	if not GameTooltip.GetBackdrop then
+		Mixin(GameTooltip, BackdropTemplateMixin)
 	end
+
+	if GameTooltip.NineSlice.GetBackdrop then
+		local backdrop = GameTooltip.NineSlice:GetBackdrop()
+
+		frame:SetBackdrop(backdrop)
+
+		if backdrop then
+			frame:SetBackdropColor(GameTooltip.NineSlice:GetBackdropColor())
+			frame:SetBackdropBorderColor(GameTooltip.NineSlice:GetBackdropBorderColor())
+		end
+	else
+		-- If we don't have a backdrop to mimic from the tooltip, use a sane default
+		-- BACKDROP_DARK_DIALOG_32_32 is a blizzard backdrop global
+		frame:SetBackdrop(BACKDROP_DARK_DIALOG_32_32)
+	end
+
 	frame:SetScale(GameTooltip:GetScale())
 end
 
