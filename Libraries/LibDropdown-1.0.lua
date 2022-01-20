@@ -97,13 +97,13 @@ local function InitializeFrame(frame)
             Mixin(GameTooltip, BackdropTemplateMixin)
         end
 
-	local backdrop = GameTooltip:GetBackdrop()
+	local backdrop = GameTooltip.NineSlice:GetBackdrop()
 
 	frame:SetBackdrop(backdrop)
 
 	if backdrop then
-		frame:SetBackdropColor(GameTooltip:GetBackdropColor())
-		frame:SetBackdropBorderColor(GameTooltip:GetBackdropBorderColor())
+		frame:SetBackdropColor(GameTooltip.NineSlice:GetBackdropColor())
+		frame:SetBackdropBorderColor(GameTooltip.NineSlice:GetBackdropBorderColor())
 	end
 	frame:SetScale(GameTooltip:GetScale())
 end
