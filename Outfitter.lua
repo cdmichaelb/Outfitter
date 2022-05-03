@@ -2132,6 +2132,12 @@ function Outfitter:AddOutfitMenu(menu, outfit)
 			outfit.UnequipOthers = value or nil
 			self:OutfitSettingsChanged(outfit)
 		end)
+    menu:AddToggle(self.cPreventUnequip, function()
+      return outfit.PreventUnequip
+    end, function (menu, value)
+      outfit.PreventUnequip = value or nil
+      self:OutfitSettingsChanged(outfit)
+    end)
 	end
 	menu:AddToggle(self.cIgnoreComparisons, function ()
 		return outfit.IgnoreComparisons

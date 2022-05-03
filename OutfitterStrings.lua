@@ -361,6 +361,7 @@ Outfitter.cNoScriptSettings = "There are no settings for this script."
 Outfitter.cMissingItemsSeparator = ", "
 Outfitter.cUnequipOthers = "On equip, unequip other Accessory outfits"
 Outfitter.cIgnoreComparisons = "Ignore in comparison tooltips"
+Outfitter.cPreventUnequip = "Keep equipped until manually unequipped"
 
 Outfitter.cConfirmResetMsg = "Are you sure you want to reset Outfitter on this character?  All outfits will be deleted and the default outfits re-created."
 Outfitter.cReset = "Reset"
