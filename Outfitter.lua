@@ -7904,6 +7904,9 @@ function Outfitter:GetTalentTreeName(pIndex)
 	--return vName
 end
 
+--This function overwrites a blizzard API call and causes many conflicts with other addons
+--It is also not used anywhere in the entirety of Outfitter from what I can tell
+--[[
 function GetSpecialization()
 	--local _, vName = GetSpecializationInfo(pIndex)
 	local vName1, _, vTab1 = GetTalentTabInfo(1)
@@ -7930,6 +7933,7 @@ function GetSpecialization()
 	end
 	--return vName
 end
+--]]
 
 function Outfitter:Run(pText)
 	local vCommand = pText:match("^(/[^%s]+)") or ""
