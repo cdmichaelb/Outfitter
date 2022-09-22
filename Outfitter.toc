@@ -1,13 +1,15 @@
-## Interface: 20501
-## Author: Restoshaman (Skeram)
-## Title: Outfitter [Classic]
-## Version: 2.0.4
-## Notes: Clothing and weapon management and automated equipment changes. Updated for classic by Miv(aka Restoshaman) of <Insidious>.
+## Interface: 30400
+## Author: Gogo, LemonDrake
+## X-Credits: Mundocani, Miv
+## Title: Outfitter
+## Version: 3.0.0
+## Notes: Automate Gear Set Changes, and Build Gear Sets using Pawn Stat Weights
 ## OptionalDeps: 
 ## RequiredDeps: 
 ## SavedVariablesPerCharacter: gOutfitter_Settings
 ## SavedVariables: gOutfitter_GlobalSettings
 ## X-ReloadTag: 2
+## X-Curse-Project-ID: 356701
 
 Libraries/UTF8/utf8data.lua
 Libraries/UTF8/utf8.lua
