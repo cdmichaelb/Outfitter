@@ -573,18 +573,11 @@ function Outfitter._EquipmentChange:subtractInventoryUniqueEquipTotals()
 	end
 
 	-- Get the unique-equip types
-	local uniqueEquipTypes, gemUniqueEquipTypes = itemInfo:GetUniqueEquipTypes()
+	local uniqueEquipTypes = itemInfo:GetUniqueEquipTypes()
 
 	-- Subtract the counts
-	if uniqueEquipTypes then
-		for uniqueEquipType in pairs(uniqueEquipTypes) do
-			self.uniqueEquipTotals[uniqueEquipType] = (self.uniqueEquipTotals[uniqueEquipType] or 0) - 1
-		end
-	end
-	if gemUniqueEquipTypes then
-		for uniqueEquipType in pairs(gemUniqueEquipTypes) do
-			self.uniqueEquipTotals[uniqueEquipType] = (self.uniqueEquipTotals[uniqueEquipType] or 0) - 1
-		end
+	for uniqueEquipType in pairs(uniqueEquipTypes) do
+		self.uniqueEquipTotals[uniqueEquipType] = (self.uniqueEquipTotals[uniqueEquipType] or 0) - 1
 	end
 end
 
@@ -603,18 +596,11 @@ function Outfitter._EquipmentChange:addLocationUniqueEquipTotals(location)
 	end
 
 	-- Get the unique-equip types
-	local uniqueEquipTypes, gemUniqueEquipTypes = itemInfo:GetUniqueEquipTypes()
+	local uniqueEquipTypes = itemInfo:GetUniqueEquipTypes()
 
 	-- Add the counts
-	if uniqueEquipTypes then
-		for uniqueEquipType in pairs(uniqueEquipTypes) do
-			self.uniqueEquipTotals[uniqueEquipType] = (self.uniqueEquipTotals[uniqueEquipType] or 0) + 1
-		end
-	end
-	if gemUniqueEquipTypes then
-		for uniqueEquipType in pairs(gemUniqueEquipTypes) do
-			self.uniqueEquipTotals[uniqueEquipType] = (self.uniqueEquipTotals[uniqueEquipType] or 0) + 1
-		end
+	for uniqueEquipType in pairs(uniqueEquipTypes) do
+		self.uniqueEquipTotals[uniqueEquipType] = (self.uniqueEquipTotals[uniqueEquipType] or 0) + 1
 	end
 end
 

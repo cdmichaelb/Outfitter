@@ -404,19 +404,19 @@ function Outfitter._ItemInfo:ParseTooltip()
 		self:ParseTooltipLine(line.leftText, line.leftColor)
 	end
 
-	self:ParseGemLinkForUniqueEquips(self.Gem1Link)
-	self:ParseGemLinkForUniqueEquips(self.Gem2Link)
-	self:ParseGemLinkForUniqueEquips(self.Gem3Link)
-	self:ParseGemLinkForUniqueEquips(self.Gem4Link)
+	self.Gem1UniqueType, self.Gem1UniqueCount = self:ParseGemLinkForUniqueEquips(self.Gem1Link)
+	self.Gem2UniqueType, self.Gem2UniqueCount = self:ParseGemLinkForUniqueEquips(self.Gem2Link)
+	self.Gem3UniqueType, self.Gem3UniqueCount = self:ParseGemLinkForUniqueEquips(self.Gem3Link)
+	self.Gem4UniqueType, self.Gem4UniqueCount = self:ParseGemLinkForUniqueEquips(self.Gem4Link)
 
 	-- Done
 	self.didParseTooltip = true
 end
 
 function Outfitter._ItemInfo:ParseGemLinkForUniqueEquips(link)
-	-- Item didnt have that Gem1/Gem2/etc, or already found
-	if self.GemUniqueType ~= nil or link == nil then
-		return
+	-- Item didnt have that Gem1/Gem2/etc
+	if link == nil then
+		return nil, nil
 	end
 
 	local tooltip = Outfitter.TooltipLib:SharedTooltip()
@@ -425,18 +425,18 @@ function Outfitter._ItemInfo:ParseGemLinkForUniqueEquips(link)
 
 	-- Return if something went wrong
 	if not tooltip:IsShown() then
-		return
+		return nil, nil
 	end
 
 	for line in Outfitter.TooltipLib:TooltipLines(tooltip) do
 		-- Check for Unique-Equipped
 		local type, count = line.leftText:match(Outfitter.cUniqueEquippedSearchPattern)
 		if type then
-			self.GemUniqueType = type
-			self.GemUniqueCount = tonumber(count)
-			return
+			return type, tonumber(count)
 		end
 	end
+
+	return nil, nil
 end
 
 function Outfitter._ItemInfo:ParseTooltipLine(text, color)
@@ -488,16 +488,24 @@ function Outfitter._ItemInfo:GetUniqueEquipTypes()
 		self:ParseTooltip()
 	end
 	
-	local itemTable = {}
-	if  self.UniqueType then
-		itemTable = {[self.UniqueType] = self.UniqueCount}
+	local uniqueTypesTable = {}
+	if self.UniqueType then
+		uniqueTypesTable[self.UniqueType] = self.UniqueCount
 	end
-	local gemTable = {}
-	if self.GemUniqueType then
-		gemTable = {[self.GemUniqueType] = self.GemUniqueCount}
+	if self.Gem1UniqueType then
+		uniqueTypesTable[self.Gem1UniqueType] = self.Gem1UniqueCount
+	end
+	if self.Gem2UniqueType then
+		uniqueTypesTable[self.Gem2UniqueType] = self.Gem2UniqueCount
+	end
+	if self.Gem3UniqueType then
+		uniqueTypesTable[self.Gem3UniqueType] = self.Gem3UniqueCount
+	end
+	if self.Gem4UniqueType then
+		uniqueTypesTable[self.Gem4UniqueType] = self.Gem4UniqueCount
 	end
 
-	return itemTable, gemTable
+	return uniqueTypesTable
 end
 
 ----------------------------------------
