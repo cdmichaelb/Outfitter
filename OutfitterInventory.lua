@@ -77,7 +77,19 @@ function Outfitter:GetBagItemInfo(bagIndex, slotIndex)
 	local location = ItemLocation:CreateFromBagAndSlot(bagIndex, slotIndex)
 
 	itemInfo.Texture = GetContainerItemInfo(bagIndex, slotIndex)
-	-- itemInfo.Gem1, itemInfo.Gem2, itemInfo.Gem3, itemInfo.Gem4 = GetContainerItemGems(bagIndex, slotIndex)
+	itemInfo.Gem1, itemInfo.Gem2, itemInfo.Gem3, itemInfo.Gem4 = GetContainerItemGems(bagIndex, slotIndex)
+	if itemInfo.Gem1 ~= nil then
+		itemInfo.Gem1Link = select(2, GetItemInfo(itemInfo.Gem1))
+	end
+	if itemInfo.Gem2 ~= nil then
+		itemInfo.Gem2Link = select(2, GetItemInfo(itemInfo.Gem2))
+	end
+	if itemInfo.Gem3 ~= nil then
+		itemInfo.Gem3Link = select(2, GetItemInfo(itemInfo.Gem3))
+	end
+	if itemInfo.Gem4 ~= nil then
+		itemInfo.Gem4Link = select(2, GetItemInfo(itemInfo.Gem4))
+	end
 	itemInfo.AzeriteCodes = self:GetAzeriteCodesForLocation(location)
 	itemInfo.Location = {BagIndex = bagIndex, BagSlotIndex = slotIndex}
 	
@@ -381,6 +393,8 @@ function Outfitter._ItemInfo:ParseTooltip()
 		assert(false, "can't find item for tooltip")
 		return
 	end
+
+	-- print(self.Link)
 		
 	-- Return if something went wrong
 	if not tooltip:IsShown() then
@@ -392,8 +406,39 @@ function Outfitter._ItemInfo:ParseTooltip()
 		self:ParseTooltipLine(line.leftText, line.leftColor)
 	end
 
+	self:ParseGemLinkForUniqueEquips(self.Gem1Link)
+	self:ParseGemLinkForUniqueEquips(self.Gem2Link)
+	self:ParseGemLinkForUniqueEquips(self.Gem3Link)
+	self:ParseGemLinkForUniqueEquips(self.Gem4Link)
+
 	-- Done
 	self.didParseTooltip = true
+end
+
+function Outfitter._ItemInfo:ParseGemLinkForUniqueEquips(link)
+	-- Item didnt have that Gem1/Gem2/etc, or already found
+	if self.GemUniqueType ~= nil or link == nil then
+		return
+	end
+
+	local tooltip = Outfitter.TooltipLib:SharedTooltip()
+	tooltip:ClearLines()
+	tooltip:SetHyperlink(link)
+
+	-- Return if something went wrong
+	if not tooltip:IsShown() then
+		return
+	end
+
+	for line in Outfitter.TooltipLib:TooltipLines(tooltip) do
+		-- Check for Unique-Equipped
+		local type, count = line.leftText:match(Outfitter.cUniqueEquippedSearchPattern)
+		if type then
+			self.GemUniqueType = type
+			self.GemUniqueCount = tonumber(count)
+			return
+		end
+	end
 end
 
 function Outfitter._ItemInfo:ParseTooltipLine(text, color)
@@ -445,13 +490,16 @@ function Outfitter._ItemInfo:GetUniqueEquipTypes()
 		self:ParseTooltip()
 	end
 	
-	-- Return nothing if there is nothing
-	if not self.UniqueType then
-		return
+	local itemTable = {}
+	if  self.UniqueType then
+		itemTable = {[self.UniqueType] = self.UniqueCount}
 	end
-	
-	-- Return the values
-	return {[self.UniqueType] = self.UniqueCount}
+	local gemTable = {}
+	if self.GemUniqueType then
+		gemTable = {[self.GemUniqueType] = self.GemUniqueCount}
+	end
+
+	return itemTable, gemTable
 end
 
 ----------------------------------------
@@ -491,7 +539,19 @@ function Outfitter:GetSlotIDItemInfo(slotID)
 
 	itemInfo.Quality = GetInventoryItemQuality("player", slotID)
 	itemInfo.Texture = GetInventoryItemTexture("player", slotID)
-	-- itemInfo.Gem1, itemInfo.Gem2, itemInfo.Gem3, itemInfo.Gem4 = GetInventoryItemGems(slotID)
+	itemInfo.Gem1, itemInfo.Gem2, itemInfo.Gem3, itemInfo.Gem4 = GetInventoryItemGems(slotID)
+	if itemInfo.Gem1 ~= nil then
+		itemInfo.Gem1Link = select(2, GetItemInfo(itemInfo.Gem1))
+	end
+	if itemInfo.Gem2 ~= nil then
+		itemInfo.Gem2Link = select(2, GetItemInfo(itemInfo.Gem2))
+	end
+	if itemInfo.Gem3 ~= nil then
+		itemInfo.Gem3Link = select(2, GetItemInfo(itemInfo.Gem3))
+	end
+	if itemInfo.Gem4 ~= nil then
+		itemInfo.Gem4Link = select(2, GetItemInfo(itemInfo.Gem4))
+	end
 	itemInfo.AzeriteCodes = self:GetAzeriteCodesForLocation(location)
 	itemInfo.Location = {SlotID = slotID}
 
