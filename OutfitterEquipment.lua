@@ -83,7 +83,6 @@ function Outfitter._EquipmentChanges:addChangesToEquipOutfit(outfit, inventoryCa
 		return nil
 	end
 
-	-- print("adjustUniqueEquipSwaps")
 	self:adjustUniqueEquipSwaps()
 	self:optimize()
 end
@@ -465,7 +464,7 @@ function Outfitter._EquipmentChanges:optimize()
 end
 
 function Outfitter._EquipmentChanges:execute(emptyBagSlots, expectedInventoryCache)
-	-- print(expectedInventoryCache)
+	--print(expectedInventoryCache)
 	-- Disable sound effects during the swap
 	local savedEnabledSFXValue
 	if not Outfitter.Settings.EnableEquipSounds then
@@ -565,7 +564,6 @@ function Outfitter._EquipmentChange:construct(inventorySlot, itemName)
 end
 
 function Outfitter._EquipmentChange:subtractInventoryUniqueEquipTotals()
-	-- print('subtractInventoryUniqueEquipTotals')
 	-- Get the item
 	local itemInfo = Outfitter:GetSlotIDItemInfo(self.SlotID)
 
@@ -622,8 +620,6 @@ end
 
 function Outfitter._EquipmentChange:calcUniqueEquipOrderingRank(uniqueEquipCountOffsets)
 	local hasNegative, hasPositive
-
-	-- print('uniqueEquipTotals len' .. #self.uniqueEquipTotals)
 
 	-- Check each total
 	for uniqueID, uniqueCount in pairs(self.uniqueEquipTotals) do

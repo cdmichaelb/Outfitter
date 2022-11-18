@@ -394,8 +394,6 @@ function Outfitter._ItemInfo:ParseTooltip()
 		return
 	end
 
-	-- print(self.Link)
-		
 	-- Return if something went wrong
 	if not tooltip:IsShown() then
 		return
