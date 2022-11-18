@@ -545,19 +545,23 @@ function Outfitter:GetSlotIDItemInfo(slotID)
 
 	itemInfo.Quality = GetInventoryItemQuality("player", slotID)
 	itemInfo.Texture = GetInventoryItemTexture("player", slotID)
-	itemInfo.Gem1, itemInfo.Gem2, itemInfo.Gem3, itemInfo.Gem4 = GetInventoryItemGems(slotID)
-	if itemInfo.Gem1 ~= nil then
-		itemInfo.Gem1Link = select(2, GetItemInfo(itemInfo.Gem1))
+
+	if slotID then
+		itemInfo.Gem1, itemInfo.Gem2, itemInfo.Gem3, itemInfo.Gem4 = GetInventoryItemGems(slotID)
+		if itemInfo.Gem1 ~= nil then
+			itemInfo.Gem1Link = select(2, GetItemInfo(itemInfo.Gem1))
+		end
+		if itemInfo.Gem2 ~= nil then
+			itemInfo.Gem2Link = select(2, GetItemInfo(itemInfo.Gem2))
+		end
+		if itemInfo.Gem3 ~= nil then
+			itemInfo.Gem3Link = select(2, GetItemInfo(itemInfo.Gem3))
+		end
+		if itemInfo.Gem4 ~= nil then
+			itemInfo.Gem4Link = select(2, GetItemInfo(itemInfo.Gem4))
+		end
 	end
-	if itemInfo.Gem2 ~= nil then
-		itemInfo.Gem2Link = select(2, GetItemInfo(itemInfo.Gem2))
-	end
-	if itemInfo.Gem3 ~= nil then
-		itemInfo.Gem3Link = select(2, GetItemInfo(itemInfo.Gem3))
-	end
-	if itemInfo.Gem4 ~= nil then
-		itemInfo.Gem4Link = select(2, GetItemInfo(itemInfo.Gem4))
-	end
+
 	itemInfo.AzeriteCodes = self:GetAzeriteCodesForLocation(location)
 	itemInfo.Location = {SlotID = slotID}
 
