@@ -575,11 +575,6 @@ function Outfitter._EquipmentChange:subtractInventoryUniqueEquipTotals()
 	-- Get the unique-equip types
 	local uniqueEquipTypes = itemInfo:GetUniqueEquipTypes()
 
-	-- Done if there are no unique-equip types
-	if not uniqueEquipTypes then
-		return
-	end
-
 	-- Subtract the counts
 	for uniqueEquipType in pairs(uniqueEquipTypes) do
 		self.uniqueEquipTotals[uniqueEquipType] = (self.uniqueEquipTotals[uniqueEquipType] or 0) - 1
@@ -602,11 +597,6 @@ function Outfitter._EquipmentChange:addLocationUniqueEquipTotals(location)
 
 	-- Get the unique-equip types
 	local uniqueEquipTypes = itemInfo:GetUniqueEquipTypes()
-
-	-- Done if there are no unique-equip types
-	if not uniqueEquipTypes then
-		return
-	end
 
 	-- Add the counts
 	for uniqueEquipType in pairs(uniqueEquipTypes) do
