@@ -2,7 +2,7 @@
 ## Author: Gogo, LemonDrake
 ## X-Credits: Mundocani, Miv
 ## Title: Outfitter
-## Version: 3.0.0
+## Version: 3.0.2
 ## Notes: Automate Gear Set Changes, and Build Gear Sets using Pawn Stat Weights
 ## OptionalDeps: 
 ## RequiredDeps: 
