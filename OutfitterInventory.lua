@@ -2,6 +2,7 @@
 local GetContainerNumSlots = C_Container and C_Container.GetContainerNumSlots or _G.GetContainerNumSlots
 local GetContainerItemLink = C_Container and C_Container.GetContainerItemLink or _G.GetContainerItemLink
 local GetContainerItemInfo = C_Container and C_Container.GetContainerItemInfo or _G.GetContainerItemInfo
+local GetContainerItemGems = C_Container and C_Container.GetContainerItemGems or _G.GetContainerItemGems
 
 ----------------------------------------
 -- General
