@@ -2,6 +2,12 @@
 -- Outfitter Copyright 2006-2018 John Stephen
 ----------------------------------------
 
+-- Local functions to fix 3.4.1 changes
+local GetContainerNumSlots = C_Container and C_Container.GetContainerNumSlots or _G.GetContainerNumSlots
+local GetContainerItemLink = C_Container and C_Container.GetContainerItemLink or _G.GetContainerItemLink
+local GetContainerNumFreeSlots = C_Container and C_Container.GetContainerNumFreeSlots or _G.GetContainerNumFreeSlots
+local ContainerIDToInventoryID = C_Container and C_Container.ContainerIDToInventoryID or _G.ContainerIDToInventoryID
+
 Outfitter.Debug =
 {
 	InventoryCache = false,
