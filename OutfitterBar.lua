@@ -1,3 +1,8 @@
+-- Local functions to fix 3.4.1 changes
+local GetContainerNumSlots = C_Container and C_Container.GetContainerNumSlots or _G.GetContainerNumSlots
+local GetContainerItemLink = C_Container and C_Container.GetContainerItemLink or _G.GetContainerItemLink
+local GetContainerItemInfo = C_Container and C_Container.GetContainerItemInfo or _G.GetContainerItemInfo
+
 -- Global Backdrops
 BACKDROP_OUTFITTER_DIALOG_32_32 = {
 	bgFile = "Interface\\Addons\\Outfitter\\Textures\\DialogBox-Background",
