@@ -1,3 +1,6 @@
+-- Local functions to fix 3.4.1 changes
+local PickupContainerItem = C_Container and C_Container.PickupContainerItem or _G.PickupContainerItem
+
 Outfitter.EquipmentUpdateCount = 0
 
 ----------------------------------------
