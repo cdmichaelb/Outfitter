@@ -1,8 +1,8 @@
-## Interface: 30400
+## Interface: 30401
 ## Author: Gogo, LemonDrake
 ## X-Credits: Mundocani, Miv
 ## Title: Outfitter
-## Version: 3.0.2
+## Version: 3.0.4
 ## Notes: Automate Gear Set Changes, and Build Gear Sets using Pawn Stat Weights
 ## OptionalDeps: 
 ## RequiredDeps: 
