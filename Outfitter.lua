@@ -8158,8 +8158,8 @@ function Outfitter._ListItem:SetToItem(pOutfitItem)
 		self.DefaultColor = GRAY_FONT_COLOR
 	end
 
-	if pOutfitItem.Texture then
-		vItemIcon:SetTexture(pOutfitItem.Texture)
+	if pOutfitItem.Texture and pOutfitItem.Texture.iconFileID then
+		vItemIcon:SetTexture(pOutfitItem.Texture.iconFileID)
 		vItemIcon:Show()
 	else
 		vItemIcon:Hide()
