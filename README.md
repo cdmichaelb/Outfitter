@@ -1,9 +1,5 @@
-Initial Release of TBC Classic Port
+WoW Classic Wrath of the Lich King
 
-Forked from https://github.com/Mundocani/Outfitter by John Stephen
+Forked from https://github.com/cdmichaelb/Outfitter
 
-
-PROJECT IS CURRENTLY NOT MAINTAINED. Contact me if you would like to take it over.
-
-
-
+THIS FORK IS POORLY MAINTAINED, BUT I'LL TRY TO HELP.
