@@ -83,7 +83,7 @@ function Outfitter:GetBagItemInfo(bagIndex, slotIndex)
 	local location = ItemLocation:CreateFromBagAndSlot(bagIndex, slotIndex)
 
 	itemInfo.Texture = GetContainerItemInfo(bagIndex, slotIndex)
-	itemInfo.Gem1, itemInfo.Gem2, itemInfo.Gem3, itemInfo.Gem4 = GetContainerItemGems(bagIndex, slotIndex)
+	itemInfo.Gem1, itemInfo.Gem2, itemInfo.Gem3, itemInfo.Gem4 = unpack(GetContainerItemGems(bagIndex, slotIndex))
 	if itemInfo.Gem1 ~= nil then
 		itemInfo.Gem1Link = select(2, GetItemInfo(itemInfo.Gem1))
 	end
