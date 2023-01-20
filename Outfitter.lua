@@ -7,6 +7,8 @@ local GetContainerNumSlots = C_Container and C_Container.GetContainerNumSlots or
 local GetContainerItemLink = C_Container and C_Container.GetContainerItemLink or _G.GetContainerItemLink
 local GetContainerNumFreeSlots = C_Container and C_Container.GetContainerNumFreeSlots or _G.GetContainerNumFreeSlots
 local ContainerIDToInventoryID = C_Container and C_Container.ContainerIDToInventoryID or _G.ContainerIDToInventoryID
+local ShowContainerSellCursor = C_Container and C_Container.ShowContainerSellCursor or _G.ShowContainerSellCursor
+local UseContainerItem = C_Container and C_Container.UseContainerItem or _G.UseContainerItem
 
 Outfitter.Debug =
 {
