@@ -8160,8 +8160,11 @@ function Outfitter._ListItem:SetToItem(pOutfitItem)
 		self.DefaultColor = GRAY_FONT_COLOR
 	end
 
-	if pOutfitItem.Texture and pOutfitItem.Texture.iconFileID then
-		vItemIcon:SetTexture(pOutfitItem.Texture.iconFileID)
+	if pOutfitItem.Texture then
+		local texture = pOutfitItem.Texture	-- because some outfits are actually deeper tables
+		if type(pOutfitItem.Texture) == "table" then texture = pOutfitItem.Texture.iconFileID end
+		--vItemIcon:SetTexture(pOutfitItem.Texture)
+		vItemIcon:SetTexture(texture)
 		vItemIcon:Show()
 	else
 		vItemIcon:Hide()
