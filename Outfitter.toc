@@ -1,8 +1,8 @@
 ## Interface: 30401
-## Author: Gogo, LemonDrake
+## Author: Gogo, LemonDrake Updates: GovtGeek
 ## X-Credits: Mundocani, Miv
 ## Title: Outfitter
-## Version: 3.0.4.2
+## Version: 3.0.4.3
 ## Notes: Automate Gear Set Changes, and Build Gear Sets using Pawn Stat Weights
 ## OptionalDeps: 
 ## RequiredDeps: 
