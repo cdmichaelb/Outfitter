@@ -1,9 +1,3 @@
--- Local functions to fix 3.4.1 changes
-local GetContainerNumSlots = C_Container and C_Container.GetContainerNumSlots or _G.GetContainerNumSlots
-local GetContainerItemLink = C_Container and C_Container.GetContainerItemLink or _G.GetContainerItemLink
-local GetContainerItemInfo = C_Container and C_Container.GetContainerItemInfo or _G.GetContainerItemInfo
-local GetContainerItemGems = C_Container and C_Container.GetContainerItemGems or _G.GetContainerItemGems
-
 ----------------------------------------
 -- General
 ----------------------------------------
@@ -70,7 +64,7 @@ function Outfitter:InventorySlotIsEmpty(pInventorySlot)
 end
 
 function Outfitter:GetBagItemInfo(bagIndex, slotIndex)
-	local itemLink = GetContainerItemLink(bagIndex, slotIndex)
+	local itemLink = C_Container.GetContainerItemLink(bagIndex, slotIndex)
 	if not itemLink then
 		return
 	end
@@ -81,29 +75,17 @@ function Outfitter:GetBagItemInfo(bagIndex, slotIndex)
 	end
 
 	local location = ItemLocation:CreateFromBagAndSlot(bagIndex, slotIndex)
-
-	itemInfo.Texture = GetContainerItemInfo(bagIndex, slotIndex)
-	itemInfo.Gem1, itemInfo.Gem2, itemInfo.Gem3, itemInfo.Gem4 = GetContainerItemGems(bagIndex, slotIndex)
-	if itemInfo.Gem1 ~= nil then
-		itemInfo.Gem1Link = select(2, GetItemInfo(itemInfo.Gem1))
-	end
-	if itemInfo.Gem2 ~= nil then
-		itemInfo.Gem2Link = select(2, GetItemInfo(itemInfo.Gem2))
-	end
-	if itemInfo.Gem3 ~= nil then
-		itemInfo.Gem3Link = select(2, GetItemInfo(itemInfo.Gem3))
-	end
-	if itemInfo.Gem4 ~= nil then
-		itemInfo.Gem4Link = select(2, GetItemInfo(itemInfo.Gem4))
-	end
-	itemInfo.AzeriteCodes = self:GetAzeriteCodesForLocation(location)
-	itemInfo.Location = {BagIndex = bagIndex, BagSlotIndex = slotIndex}
 	
+	local vTexture
+	vTexture = C_Container.GetContainerItemInfo(bagIndex, slotIndex)
+	itemInfo.Texture = vTexture.iconFileID
+	itemInfo.Gem1, itemInfo.Gem2, itemInfo.Gem3, itemInfo.Gem4 = C_Container.GetContainerItemGems(bagIndex, slotIndex)
+	itemInfo.Location = {BagIndex = bagIndex, BagSlotIndex = slotIndex}
 	return itemInfo
 end
 
 function Outfitter:GetBagItemLinkInfo(bagIndex, slotIndex)
-	local itemLink = GetContainerItemLink(bagIndex, slotIndex)
+	local itemLink = C_Container.GetContainerItemLink(bagIndex, slotIndex)
 	
 	if not itemLink then
 		return
@@ -113,7 +95,7 @@ function Outfitter:GetBagItemLinkInfo(bagIndex, slotIndex)
 end
 
 function Outfitter:GetBagItemInvType(bagIndex, slotIndex)
-	local itemLink = GetContainerItemLink(bagIndex, slotIndex)
+	local itemLink = C_Container.GetContainerItemLink(bagIndex, slotIndex)
 	
 	if not itemLink then
 		return
@@ -130,7 +112,7 @@ function Outfitter:GetItemLocationLink(pItemLocation)
 	end
 	
 	if pItemLocation.BagIndex then
-		return GetContainerItemLink(pItemLocation.BagIndex, pItemLocation.BagSlotIndex)
+		return C_Container.GetContainerItemLink(pItemLocation.BagIndex, pItemLocation.BagSlotIndex)
 	elseif pItemLocation.SlotName then
 		return self:GetInventorySlotIDLink(pSlotID)
 	else
@@ -656,7 +638,7 @@ function Outfitter:Synchronize()
 			self.LinkCache.Bags[vBagIndex] = vBag
 		end
 		
-		local vNumBagSlots = GetContainerNumSlots(vBagIndex)
+		local vNumBagSlots = C_Container.GetContainerNumSlots(vBagIndex)
 		
 		if #vBag ~= vNumBagSlots then
 			wipe(vBag)
@@ -664,7 +646,7 @@ function Outfitter:Synchronize()
 		end
 		
 		for vSlotIndex = 1, vNumBagSlots do
-			local vItemLink = GetContainerItemLink(vBagIndex, vSlotIndex) or ""
+			local vItemLink = C_Container.GetContainerItemLink(vBagIndex, vSlotIndex) or ""
 			
 			if vBag[vSlotIndex] ~= vItemLink then
 				vBag[vSlotIndex] = vItemLink
@@ -830,7 +812,7 @@ function Outfitter._InventoryCache:Synchronize()
 		if not vBagItems then
 			self.BagItems[vBagIndex] = {}
 			
-			local vNumBagSlots = GetContainerNumSlots(vBagIndex)
+			local vNumBagSlots = C_Container.GetContainerNumSlots(vBagIndex)
 			
 			if vNumBagSlots > 0 then
 				for vBagSlotIndex = 1, vNumBagSlots do
@@ -1222,7 +1204,7 @@ function Outfitter._InventoryCache:GetBoEItems()
 	-- Iterate the bags
 	local numBags, firstBagIndex = Outfitter:GetNumBags()
 	for bagIndex = firstBagIndex, numBags do
-		local numSlots = GetContainerNumSlots(bagIndex)
+		local numSlots = C_Container.GetContainerNumSlots(bagIndex)
 			
 		if numSlots > 0 then
 			for slotIndex = 1, numSlots do

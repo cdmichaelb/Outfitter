@@ -1,6 +1,3 @@
--- Local functions to fix 3.4.1 changes
-local PickupContainerItem = C_Container and C_Container.PickupContainerItem or _G.PickupContainerItem
-
 Outfitter.EquipmentUpdateCount = 0
 
 ----------------------------------------
@@ -680,10 +677,10 @@ function Outfitter:PickupItemLocation(pItemLocation)
 	end
 
 	if pItemLocation.BagIndex then
-		if CT_oldPickupContainerItem then
-			CT_oldPickupContainerItem(pItemLocation.BagIndex, pItemLocation.BagSlotIndex)
+		if C_Container.PickupContainerItem then
+			C_Container.PickupContainerItem(pItemLocation.BagIndex, pItemLocation.BagSlotIndex)
 		else
-			PickupContainerItem(pItemLocation.BagIndex, pItemLocation.BagSlotIndex)
+			C_Container.PickupContainerItem(pItemLocation.BagIndex, pItemLocation.BagSlotIndex)
 		end
 	elseif pItemLocation.SlotName then
 		PickupInventoryItem(self.cSlotIDs[pItemLocation.SlotName])

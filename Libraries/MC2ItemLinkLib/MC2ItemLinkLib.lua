@@ -82,4 +82,4 @@ function Addon.ItemLinkLib._LinkInfo:parse(link)
 	self.upgradeID = self[index] or 0
 end
 
--- /dump Outfitter.ItemLinkLib:linkInfoForLink(GetContainerItemLink(0, 1))
+-- /dump Outfitter.ItemLinkLib:linkInfoForLink(C_Container.GetContainerItemLink(0, 1))

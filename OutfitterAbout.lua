@@ -27,7 +27,7 @@ function Outfitter._AboutView:Construct(pParent)
 	self.AuthorText:SetPoint("TOP", self.Title, "BOTTOM", 0, -27)
 	self.AuthorText:SetWidth(250)
 	self.AuthorText:SetJustifyH("CENTER")
-	self.AuthorText:SetText("Ported to Classic by Restoshaman/Miv of <Onslaught> on Skeram")
+	self.AuthorText:SetText("\nFixed for WOTLK Classic by Codermik, www.twitch.tv/codermik")
 
 
 	
@@ -43,7 +43,7 @@ function Outfitter._AboutView:Construct(pParent)
 	self.Credits:SetHeight(200)
 
 	self.CopyrightText = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-	self.CopyrightText:SetPoint("TOP", self.ThanksText, "BOTTOM", 0, -200)
+	self.CopyrightText:SetPoint("TOP", self.ThanksText, "BOTTOM", 0, -185)
 	self.CopyrightText:SetWidth(230)
 	self.CopyrightText:SetJustifyH("CENTER")
 	self.CopyrightText:SetText(Outfitter.cAboutCopyright)

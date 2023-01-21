@@ -320,7 +320,6 @@ function Outfitter._SidebarWindowFrame:Construct()
 	self.Background.Shadow:SetAllPoints()
 	self.Background.Shadow:SetTexture(0, 0, 0, 1)
 	self.Background.Shadow:SetGradient("HORIZONTAL", CreateColor(1, 1, 1, 1), CreateColor(1, 1, 1, 0))
-
 end
 
 ----------------------------------------
