@@ -1,8 +1,3 @@
--- Local functions to fix 3.4.1 changes
-local GetContainerNumSlots = C_Container and C_Container.GetContainerNumSlots or _G.GetContainerNumSlots
-local GetContainerItemLink = C_Container and C_Container.GetContainerItemLink or _G.GetContainerItemLink
-local GetContainerItemInfo = C_Container and C_Container.GetContainerItemInfo or _G.GetContainerItemInfo
-
 -- Global Backdrops
 BACKDROP_OUTFITTER_DIALOG_32_32 = {
 	bgFile = "Interface\\Addons\\Outfitter\\Textures\\DialogBox-Background",
@@ -439,13 +434,14 @@ function Outfitter.OutfitBar:GetCursorTexture()
 		local	vNumBags, vFirstBagIndex = Outfitter:GetNumBags()
 		
 		for vBagIndex = vFirstBagIndex, vNumBags do
-			local vNumBagSlots = GetContainerNumSlots(vBagIndex)
+			local vNumBagSlots = C_Container.GetContainerNumSlots(vBagIndex)
 			
 			for vBagSlotIndex = 1, vNumBagSlots do
-				local vItemLink = GetContainerItemLink(vBagIndex, vBagSlotIndex)
+				local vItemLink = C_Container.GetContainerItemLink(vBagIndex, vBagSlotIndex)
 				
 				if vItemLink == vParam2 then
-					local vTexture = GetContainerItemInfo(vBagIndex, vBagSlotIndex)
+					local itemInfo = C_Containeer.GetContainerItemInfo(vBagIndex, vBagSlotIndex)
+					local vTexture = itemInfo.iconFileID
 					
 					return vTexture
 				end
@@ -1311,11 +1307,12 @@ function Outfitter.OutfitBar.TextureSets.Inventory:Activate()
 	local vNumBags, vFirstBagIndex = Outfitter:GetNumBags()
 	
 	for vBagIndex = vFirstBagIndex, vNumBags do
-		local	vNumBagSlots = GetContainerNumSlots(vBagIndex)
+		local	vNumBagSlots = C_Container.GetContainerNumSlots(vBagIndex)
 		
 		if vNumBagSlots > 0 then
 			for vSlotIndex = 1, vNumBagSlots do
-				local vTexture = GetContainerItemInfo(vBagIndex, vSlotIndex)
+				local itemInfo = C_Containeer.GetContainerItemInfo(vBagIndex, vBagSlotIndex)
+				local vTexture = itemInfo.iconFileID
 				
 				if vTexture and not vUsedTextures[vTexture] then
 					table.insert(self.TextureList, vTexture)

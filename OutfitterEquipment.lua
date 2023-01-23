@@ -1,6 +1,3 @@
--- Local functions to fix 3.4.1 changes
-local PickupContainerItem = C_Container and C_Container.PickupContainerItem or _G.PickupContainerItem
-
 Outfitter.EquipmentUpdateCount = 0
 
 ----------------------------------------
@@ -578,6 +575,11 @@ function Outfitter._EquipmentChange:subtractInventoryUniqueEquipTotals()
 	-- Get the unique-equip types
 	local uniqueEquipTypes = itemInfo:GetUniqueEquipTypes()
 
+	-- Done if there are no unique-equip types
+	if not uniqueEquipTypes then
+		return
+	end
+
 	-- Subtract the counts
 	for uniqueEquipType in pairs(uniqueEquipTypes) do
 		self.uniqueEquipTotals[uniqueEquipType] = (self.uniqueEquipTotals[uniqueEquipType] or 0) - 1
@@ -600,6 +602,11 @@ function Outfitter._EquipmentChange:addLocationUniqueEquipTotals(location)
 
 	-- Get the unique-equip types
 	local uniqueEquipTypes = itemInfo:GetUniqueEquipTypes()
+
+	-- Done if there are no unique-equip types
+	if not uniqueEquipTypes then
+		return
+	end
 
 	-- Add the counts
 	for uniqueEquipType in pairs(uniqueEquipTypes) do
@@ -683,7 +690,7 @@ function Outfitter:PickupItemLocation(pItemLocation)
 		if CT_oldPickupContainerItem then
 			CT_oldPickupContainerItem(pItemLocation.BagIndex, pItemLocation.BagSlotIndex)
 		else
-			PickupContainerItem(pItemLocation.BagIndex, pItemLocation.BagSlotIndex)
+			C_Container.PickupContainerItem(pItemLocation.BagIndex, pItemLocation.BagSlotIndex)
 		end
 	elseif pItemLocation.SlotName then
 		PickupInventoryItem(self.cSlotIDs[pItemLocation.SlotName])
