@@ -1,13 +1,6 @@
--- Local functions to fix 3.4.1 changes
-local GetContainerNumSlots = C_Container and C_Container.GetContainerNumSlots or _G.GetContainerNumSlots
-local GetContainerItemLink = C_Container and C_Container.GetContainerItemLink or _G.GetContainerItemLink
-local GetContainerItemInfo = C_Container and C_Container.GetContainerItemInfo or _G.GetContainerItemInfo
-local GetContainerItemGems = C_Container and C_Container.GetContainerItemGems or _G.GetContainerItemGems
-
 ----------------------------------------
 -- General
 ----------------------------------------
-
 function Outfitter:FindNextCooldownItem(pItemCodes, pIgnoreSwapCooldown)
 	local vInventoryCache = self:GetInventoryCache()
 	local vBestItem, vBestTime
@@ -70,7 +63,7 @@ function Outfitter:InventorySlotIsEmpty(pInventorySlot)
 end
 
 function Outfitter:GetBagItemInfo(bagIndex, slotIndex)
-	local itemLink = GetContainerItemLink(bagIndex, slotIndex)
+	local itemLink = C_Container.GetContainerItemLink(bagIndex, slotIndex)
 	if not itemLink then
 		return
 	end
@@ -82,8 +75,12 @@ function Outfitter:GetBagItemInfo(bagIndex, slotIndex)
 
 	local location = ItemLocation:CreateFromBagAndSlot(bagIndex, slotIndex)
 
-	itemInfo.Texture = GetContainerItemInfo(bagIndex, slotIndex)
-	itemInfo.Gem1, itemInfo.Gem2, itemInfo.Gem3, itemInfo.Gem4 = GetContainerItemGems(bagIndex, slotIndex)
+	local containerItemInfo = C_Container.GetContainerItemInfo(bagIndex, slotIndex)
+	itemInfo.Texture = containerItemInfo.iconFileID
+	
+	local itemLinkInfo = self:ParseItemLink(itemLink)
+	_, _, itemInfo.Gem1, itemInfo.Gem2, itemInfo.Gem3, itemInfo.Gem4 = unpack(self:ParseItemLink(itemLink))
+
 	if itemInfo.Gem1 ~= nil then
 		itemInfo.Gem1Link = select(2, GetItemInfo(itemInfo.Gem1))
 	end
@@ -96,14 +93,14 @@ function Outfitter:GetBagItemInfo(bagIndex, slotIndex)
 	if itemInfo.Gem4 ~= nil then
 		itemInfo.Gem4Link = select(2, GetItemInfo(itemInfo.Gem4))
 	end
-	itemInfo.AzeriteCodes = self:GetAzeriteCodesForLocation(location)
+
 	itemInfo.Location = {BagIndex = bagIndex, BagSlotIndex = slotIndex}
 	
 	return itemInfo
 end
 
 function Outfitter:GetBagItemLinkInfo(bagIndex, slotIndex)
-	local itemLink = GetContainerItemLink(bagIndex, slotIndex)
+	local itemLink = C_Container.GetContainerItemLink(bagIndex, slotIndex)
 	
 	if not itemLink then
 		return
@@ -113,7 +110,7 @@ function Outfitter:GetBagItemLinkInfo(bagIndex, slotIndex)
 end
 
 function Outfitter:GetBagItemInvType(bagIndex, slotIndex)
-	local itemLink = GetContainerItemLink(bagIndex, slotIndex)
+	local itemLink = C_Container.GetContainerItemLink(bagIndex, slotIndex)
 	
 	if not itemLink then
 		return
@@ -130,7 +127,7 @@ function Outfitter:GetItemLocationLink(pItemLocation)
 	end
 	
 	if pItemLocation.BagIndex then
-		return GetContainerItemLink(pItemLocation.BagIndex, pItemLocation.BagSlotIndex)
+		return C_Container.GetContainerItemLink(pItemLocation.BagIndex, pItemLocation.BagSlotIndex)
 	elseif pItemLocation.SlotName then
 		return self:GetInventorySlotIDLink(pSlotID)
 	else
@@ -177,6 +174,23 @@ function Outfitter:GetSlotIDItemBagType(pSlotID)
 	end
 	
 	return GetItemFamily(vItemCodes[1])
+end
+
+function Outfitter:ParseItemLink(pItemLink)
+	if not pItemLink then
+		return
+	end
+	local payload = {}
+	local index = 1;
+	for info in string.gmatch(pItemLink, "|([^\|]*)") do
+		if string.match(info, "^H") then
+			for field in string.gmatch(info, ":([^\:]*)") do
+				payload[index] = field
+				index = index + 1
+			end
+		end
+	end
+	return payload
 end
 
 function Outfitter:ParseItemLink2(pItemLink)
@@ -493,7 +507,7 @@ function Outfitter._ItemInfo:GetUniqueEquipTypes()
 	if not self.didParseTooltip then
 		self:ParseTooltip()
 	end
-	
+
 	local uniqueTypesTable = {}
 	if self.UniqueType then
 		uniqueTypesTable[self.UniqueType] = self.UniqueCount
@@ -510,7 +524,6 @@ function Outfitter._ItemInfo:GetUniqueEquipTypes()
 	if self.Gem4UniqueType then
 		uniqueTypesTable[self.Gem4UniqueType] = self.Gem4UniqueCount
 	end
-
 	return uniqueTypesTable
 end
 
@@ -553,7 +566,7 @@ function Outfitter:GetSlotIDItemInfo(slotID)
 	itemInfo.Texture = GetInventoryItemTexture("player", slotID)
 
 	if slotID then
-		itemInfo.Gem1, itemInfo.Gem2, itemInfo.Gem3, itemInfo.Gem4 = GetInventoryItemGems(slotID)
+		_, _, itemInfo.Gem1, itemInfo.Gem2, itemInfo.Gem3, itemInfo.Gem4 = unpack(self:ParseItemLink(itemLink))
 		if itemInfo.Gem1 ~= nil then
 			itemInfo.Gem1Link = select(2, GetItemInfo(itemInfo.Gem1))
 		end
@@ -568,7 +581,6 @@ function Outfitter:GetSlotIDItemInfo(slotID)
 		end
 	end
 
-	itemInfo.AzeriteCodes = self:GetAzeriteCodesForLocation(location)
 	itemInfo.Location = {SlotID = slotID}
 
 	local location = ItemLocation:CreateFromEquipmentSlot(slotID)
@@ -656,7 +668,7 @@ function Outfitter:Synchronize()
 			self.LinkCache.Bags[vBagIndex] = vBag
 		end
 		
-		local vNumBagSlots = GetContainerNumSlots(vBagIndex)
+		local vNumBagSlots = C_Container.GetContainerNumSlots(vBagIndex)
 		
 		if #vBag ~= vNumBagSlots then
 			wipe(vBag)
@@ -664,7 +676,7 @@ function Outfitter:Synchronize()
 		end
 		
 		for vSlotIndex = 1, vNumBagSlots do
-			local vItemLink = GetContainerItemLink(vBagIndex, vSlotIndex) or ""
+			local vItemLink = C_Container.GetContainerItemLink(vBagIndex, vSlotIndex) or ""
 			
 			if vBag[vSlotIndex] ~= vItemLink then
 				vBag[vSlotIndex] = vItemLink
@@ -830,7 +842,7 @@ function Outfitter._InventoryCache:Synchronize()
 		if not vBagItems then
 			self.BagItems[vBagIndex] = {}
 			
-			local vNumBagSlots = GetContainerNumSlots(vBagIndex)
+			local vNumBagSlots = C_Container.GetContainerNumSlots(vBagIndex)
 			
 			if vNumBagSlots > 0 then
 				for vBagSlotIndex = 1, vNumBagSlots do
@@ -1222,7 +1234,7 @@ function Outfitter._InventoryCache:GetBoEItems()
 	-- Iterate the bags
 	local numBags, firstBagIndex = Outfitter:GetNumBags()
 	for bagIndex = firstBagIndex, numBags do
-		local numSlots = GetContainerNumSlots(bagIndex)
+		local numSlots = C_Container.GetContainerNumSlots(bagIndex)
 			
 		if numSlots > 0 then
 			for slotIndex = 1, numSlots do
