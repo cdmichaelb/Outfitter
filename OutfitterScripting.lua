@@ -1514,23 +1514,23 @@ end
 -- $SETTING Pierre   = {type = "boolean", label = "Summon Pierre", default = false}
 -- $SETTING RandomCookFirePet = {type = "boolean", label = "Randomly summon a permitted cooking fire pet", default = false}
 -- $EVENTS TRADE_SKILL_SHOW TRADE_SKILL_CLOSE
-
+		
 if event == "TRADE_SKILL_SHOW" then
-    local skillLineID, _, _, _, _, skillLineID2 = C_TradeSkillUI.GetTradeSkillLine()
-    if skillLineID == 185 or skillLineID2 == 185 then
-        equip = true
-    end
+	local skillLineID, _, _, _ = GetTradeSkillLine()
+	if skillLineID == "Cooking" then
+		equip = true
+	end
 elseif event == "TRADE_SKILL_CLOSE" then
-    if didEquip then
-        equip = false
-    end
+	if didEquip then
+		equip = false
+	end
 elseif event == "TRADE_SKILL_UPDATE" then
-    local skillLineID, _, _, _, _, skillLineID2 = C_TradeSkillUI.GetTradeSkillLine()
-    if skillLineID == 185 or skillLineID2 == 185 then
-        equip = true
-    elseif didEquip then
-        equip = false
-    end
+	local skillLineID, _, _, _ = GetTradeSkillLine()
+	if skillLineID == "Cooking" then
+		equip = true
+	elseif didEquip then
+		equip = false
+	end
 end
 if ( setting.Ragnaros or setting.Pierre ) and equip ~= nil then
     if equip then
