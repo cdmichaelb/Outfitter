@@ -7324,10 +7324,12 @@ function Outfitter:GetTrackingEnabled(pTexture)
 			return vActive, vIndex
 		end
 	end
+	return false, 0
 end
 
 function Outfitter:SetTrackingEnabled(pTexture, pEnabled)
 	local vActive, vIndex = self:GetTrackingEnabled(pTexture)
+	if pEnabled == 1 then pEnabled = true else pEnabled = false end
 	if vActive ~= pEnabled then
 		C_Minimap.SetTracking(vIndex, pEnabled == true or pEnabled == 1)
 	end
