@@ -1168,7 +1168,7 @@ end
 
 if select(1, ...) ~= "player" then return end
 
-if UnitBuff("player", setting.buffName) then
+if AuraUtil.FindAuraByName(setting.buffName, "player") then
     equip = true
 end
 
