@@ -25,7 +25,7 @@ Libraries/LibDropdown-1.0.lua
 
 OutfitterPrefix.lua
 
-Libraries/C_Container.lua
+Libraries/VanillaConversion.lua
 
 Libraries/MC2AddonLib/MC2AddonLib.lua
 Libraries/MC2DebugLib/MC2DebugLib.lua
