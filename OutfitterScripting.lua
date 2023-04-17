@@ -822,7 +822,7 @@ if event == "OUTFIT_EQUIPPED" then
     
     if setting.EnableFishTracking then
         setting.savedTracking = Outfitter:GetTrackingEnabled(133888)
-        Outfitter:SetTrackingEnabled(133888, 1)
+        Outfitter:SetTrackingEnabled(133888, true)
         setting.didSetTracking = true
     end
     
