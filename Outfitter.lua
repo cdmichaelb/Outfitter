@@ -7316,10 +7316,10 @@ function Outfitter:PlayerIsOnQuestID(pQuestID)
 end
 
 function Outfitter:GetTrackingEnabled(pTexture)
-	local vNumTypes = GetNumTrackingTypes()
+	local vNumTypes = C_Minimap.GetNumTrackingTypes()
 
 	for vIndex = 1, vNumTypes do
-		local vName, vTexture, vActive = GetTrackingInfo(vIndex)
+		local vName, vTexture, vActive = C_Minimap.GetTrackingInfo(vIndex)
 		if vTexture == pTexture then
 			return vActive, vIndex
 		end
@@ -7329,7 +7329,7 @@ end
 function Outfitter:SetTrackingEnabled(pTexture, pEnabled)
 	local vActive, vIndex = self:GetTrackingEnabled(pTexture)
 	if vActive ~= pEnabled then
-		SetTracking(vIndex, pEnabled == true or pEnabled == 1)
+		C_Minimap.SetTracking(vIndex, pEnabled == true or pEnabled == 1)
 	end
 end
 
