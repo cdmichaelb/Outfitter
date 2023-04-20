@@ -7,7 +7,7 @@ if C_Container == nil then
 	function C_Container.GetContainerItemInfo(bagIndex, slotIndex)
 		icon, itemCount, locked, quality, readable, lootable, itemLink, isFiltered, noValue, itemID, isBound = GetContainerItemInfo(bagIndex, slotIndex)
 		containerItemInfo = {
-			["iconFileId"] = icon,
+			["iconFileID"] = icon,
 			["stackCount"] = itemCount,
 			["isLocked"] = locked,
 			["quality"] = quality,
