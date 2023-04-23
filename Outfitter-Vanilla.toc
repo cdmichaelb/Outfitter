@@ -1,6 +1,6 @@
 ## Interface: 11403
-## Author: Gogo, LemonDrake
-## X-Credits: Mundocani, Miv, GovtGeek
+## Author: Gogo, LemonDrake Updates: GovtGeek
+## X-Credits: Mundocani, Miv
 ## Title: Outfitter
 ## Version: 3.0.4
 ## Notes: Automate Gear Set Changes, and Build Gear Sets using Pawn Stat Weights
@@ -25,7 +25,8 @@ Libraries/LibDropdown-1.0.lua
 
 OutfitterPrefix.lua
 
-Libraries/VanillaConversion.lua
+Libraries/Vanilla-C_Container.lua
+Libraries/Vanilla-C_Minimap.lua
 
 Libraries/MC2AddonLib/MC2AddonLib.lua
 Libraries/MC2DebugLib/MC2DebugLib.lua
