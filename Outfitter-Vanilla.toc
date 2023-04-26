@@ -1,5 +1,5 @@
 ## Interface: 11403
-## Author: Gogo, LemonDrake Updates: GovtGeek
+## Author: Gogo, LemonDrake
 ## X-Credits: Mundocani, Miv
 ## Title: Outfitter
 ## Version: 3.0.4
@@ -10,6 +10,7 @@
 ## SavedVariables: gOutfitter_GlobalSettings
 ## X-ReloadTag: 2
 ## X-Curse-Project-ID: 356701
+## X-Contributors: GovtGeek
 
 Libraries/UTF8/utf8data.lua
 Libraries/UTF8/utf8.lua
