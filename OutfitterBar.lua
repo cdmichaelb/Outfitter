@@ -1223,7 +1223,7 @@ function Outfitter.OutfitBar.TextureSets.Spellbook:Activate()
 
 		for _, professionID in ipairs(professions) do
 			local name, iconID = GetProfessionInfo(professionID)
-			if not usedIconIDs[iconID] then
+			if iconID and not usedIconIDs[iconID] then
 				table.insert(self.TextureList, iconID)
 				usedIconIDs[iconID] = true
 			end
@@ -1310,9 +1310,9 @@ function Outfitter.OutfitBar.TextureSets.Inventory:Activate()
 		local	vNumBagSlots = C_Container.GetContainerNumSlots(vBagIndex)
 		
 		if vNumBagSlots > 0 then
-			for vSlotIndex = 1, vNumBagSlots do
-				local itemInfo = C_Containeer.GetContainerItemInfo(vBagIndex, vBagSlotIndex)
-				local vTexture = itemInfo.iconFileID
+			for vBagSlotIndex = 1, vNumBagSlots do
+				local itemInfo = C_Container.GetContainerItemInfo(vBagIndex, vBagSlotIndex)
+				local vTexture = itemInfo and itemInfo.iconFileID
 				
 				if vTexture and not vUsedTextures[vTexture] then
 					table.insert(self.TextureList, vTexture)
