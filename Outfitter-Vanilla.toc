@@ -1,0 +1,68 @@
+## Interface: 11403
+## Author: Gogo, LemonDrake
+## X-Credits: Mundocani, Miv
+## Title: Outfitter
+## Version: 3.0.4
+## Notes: Automate Gear Set Changes, and Build Gear Sets using Pawn Stat Weights
+## OptionalDeps: 
+## RequiredDeps: 
+## SavedVariablesPerCharacter: gOutfitter_Settings
+## SavedVariables: gOutfitter_GlobalSettings
+## X-ReloadTag: 2
+## X-Curse-Project-ID: 356701
+## X-Contributors: GovtGeek
+
+Libraries/UTF8/utf8data.lua
+Libraries/UTF8/utf8.lua
+
+Libraries/LibStub.lua
+Libraries/CallbackHandler-1.0.lua
+Libraries/LibDataBroker-1.1.lua
+Libraries/LibBabble-3.0.lua
+Libraries/LibBabble-SubZone-3.0.lua
+Libraries/LibBabble-Inventory-3.0.lua
+Libraries/LibTipHooker-1.1.lua
+Libraries/LibDropdown-1.0.lua
+
+OutfitterPrefix.lua
+
+Libraries/Vanilla-C_Container.lua
+Libraries/Vanilla-C_Minimap.lua
+
+Libraries/MC2AddonLib/MC2AddonLib.lua
+Libraries/MC2DebugLib/MC2DebugLib.lua
+Libraries/MC2SchedulerLib/MC2SchedulerLib.lua
+Libraries/MC2EventLib/MC2EventLib.lua
+Libraries/MC2UIElementsLib/MC2UIElementsLib.lua
+Libraries/MC2ItemLinkLib/MC2ItemLinkLib.lua
+Libraries/MC2TooltipLib/MC2TooltipLib.lua
+Libraries/MC2ItemStatsLib/MC2ItemStatsLib.lua
+
+OutfitterStrings.lua
+OutfitterStrings_de.lua
+OutfitterStrings_fr.lua
+OutfitterStrings_cn.lua
+OutfitterStrings_tw.lua
+OutfitterStrings_kr.lua
+OutfitterStrings_ru.lua
+OutfitterStrings_ru.lua
+
+Outfitter.lua
+
+OutfitterOutfits.lua
+OutfitterInventory.lua
+OutfitterEquipment.lua
+OutfitterItemStats.lua
+OutfitterOptimize.lua
+OutfitterUITools.lua
+OutfitterScripting.lua
+OutfitterScriptDialog.lua
+OutfitterQuickSlots.lua
+OutfitterMinimapButton.lua
+OutfitterBar.lua
+OutfitterAbout.lua
+
+OutfitterLDB.lua
+
+Outfitter.xml
+OutfitterBar.xml
