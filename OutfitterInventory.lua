@@ -21,7 +21,8 @@ function Outfitter:FindNextCooldownItem(pItemCodes, pIgnoreSwapCooldown)
 				local vStart, vDuration, vEnabled
 				
 				if vItemInfo.Location.BagIndex then
-					vStart, vDuration, vEnabled = GetContainerItemCooldown(vItemInfo.Location.BagIndex, vItemInfo.Location.BagSlotIndex)
+					vStart, vDuration, vEnabled = C_Container.GetContainerItemCooldown(vItemInfo.Location.BagIndex,
+						vItemInfo.Location.BagSlotIndex)
 				elseif vItemInfo.Location.SlotID then
 					vStart, vDuration, vEnabled = GetInventoryItemCooldown("player", vItemInfo.Location.SlotID)
 				end
