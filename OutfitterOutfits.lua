@@ -747,7 +747,7 @@ end
 function Outfitter:DumpEMOutfitLocations(pName)
 	local equipmentSetID = C_EquipmentSet.GetEquipmentSetID(pName)
 	local vLocations = C_EquipmentSet.GetItemLocations(equipmentSetID)
-	local vIgnoreSlots = GetEquipmentSetIgnoreSlots(pName)
+	local vIgnoreSlots = C_EquipmentSet.GetIgnoredSlots(pName)
 	self:DebugTable(vLocations, "Locations")
 	self:DebugTable(vIgnoreSlots, "IgnoreSlots")
 

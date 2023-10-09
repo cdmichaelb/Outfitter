@@ -92,7 +92,7 @@ function Addon.ItemStatsLib._Stats:setToBagItem(bag, slot)
 	local stats = Addon.TooltipLib:StatsForBagItem(bag, slot)
 	self:setTooltipStats(stats)
 
-	local link = GetContainerItemLink(bag, slot)
+	local link = C_Container.GetContainerItemLink(bag, slot)
 	self:setInfoFromLink(link)
 end
 
