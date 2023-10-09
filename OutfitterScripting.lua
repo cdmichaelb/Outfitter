@@ -821,9 +821,12 @@ if event == "OUTFIT_EQUIPPED" then
     end
     
     if setting.EnableFishTracking then
-        setting.savedTracking = Outfitter:GetTrackingEnabled(133888)
-        Outfitter:SetTrackingEnabled(133888, 1)
-        setting.didSetTracking = true
+		local _, vIndex = Outfitter:GetTrackingEnabled(133888)
+		if vIndex then
+			setting.savedTracking = Outfitter:GetCurrentSpellTrackingEnabled()
+			Outfitter:SetTrackingEnabled(133888, 1)
+			setting.didSetTracking = true
+		end
     end
     
    if setting.DisableClicktoMove then
@@ -848,7 +851,11 @@ elseif event == "OUTFIT_UNEQUIPPED" then
    end
  
    if setting.EnableFishTracking and setting.didSetTracking then
-       Outfitter:SetTrackingEnabled(133888, setting.savedTracking)
+       if setting.savedTracking then
+	      Outfitter:SetTrackingEnabled(setting.savedTracking, true)
+	   else
+	      Outfitter:SetTrackingEnabled(133888, false)  -- no spell tracking was enabled
+	   end
        setting.didSetTracking = nil
        setting.savedTracking = nil
    end

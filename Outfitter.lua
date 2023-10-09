@@ -7315,13 +7315,22 @@ function Outfitter:PlayerIsOnQuestID(pQuestID)
 	return false
 end
 
-function Outfitter:GetTrackingEnabled(pTexture)
-	local vNumTypes = GetNumTrackingTypes()
-
+function Outfitter:GetCurrentSpellTrackingEnabled()
+	local vNumTypes = C_Minimap.GetNumTrackingTypes();
 	for vIndex = 1, vNumTypes do
-		local vName, vTexture, vActive = GetTrackingInfo(vIndex)
+		local vName, vTexture, vActive, vType = C_Minimap.GetTrackingInfo(vIndex);
+		if vActive and vType == "spell" then
+			return vTexture;
+		end
+	end
+end
+
+function Outfitter:GetTrackingEnabled(pTexture)
+	local vNumTypes = C_Minimap.GetNumTrackingTypes();	
+	for vIndex = 1, vNumTypes do
+		local vName, vTexture, vActive = C_Minimap.GetTrackingInfo(vIndex);
 		if vTexture == pTexture then
-			return vActive, vIndex
+			return vActive, vIndex;
 		end
 	end
 end
@@ -7329,7 +7338,7 @@ end
 function Outfitter:SetTrackingEnabled(pTexture, pEnabled)
 	local vActive, vIndex = self:GetTrackingEnabled(pTexture)
 	if vActive ~= pEnabled then
-		SetTracking(vIndex, pEnabled == true or pEnabled == 1)
+		C_Minimap.SetTracking(vIndex, pEnabled == true or pEnabled == 1)
 	end
 end
 
