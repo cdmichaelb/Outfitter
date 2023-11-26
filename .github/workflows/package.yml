@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Clone project
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Package and release Wrath
         uses: BigWigsMods/packager@master
