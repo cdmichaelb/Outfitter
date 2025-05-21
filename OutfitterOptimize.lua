@@ -20,7 +20,6 @@ Outfitter.cStatIDItems =
 
 function Outfitter:GenerateSmartOutfit(pName, pStatConfig, pInventoryCache, pAllowEmptyOutfit, pCompletionFunc)
 	pInventoryCache:ResetIgnoreItemFlags()
-	--print(pStatConfig)
 	if type(pStatConfig) == "string" then
 		local vStatID = pStatConfig
 		
@@ -31,7 +30,6 @@ function Outfitter:GenerateSmartOutfit(pName, pStatConfig, pInventoryCache, pAll
 		
 		-- Hard-coded item lists
 		if vStatID then
-			--print(vStatID)
 			local vStatIDItems = self.cStatIDItems[vStatID]
 			
 			if vStatIDItems then
@@ -63,10 +61,8 @@ function Outfitter:GenerateSmartOutfit(pName, pStatConfig, pInventoryCache, pAll
 		
 		if not vStat then
 			Outfitter:ErrorMessage("Unknown stat ID: %s", tostring(vConfig.StatID))
-			--print("Unknown stat ID: %s", tostring(vConfig.StatID))
 			return
 		end
-		--print(vConfig.StatID)
 		table.insert(vStatConfig, {Stat = vStat, StatID = vConfig.StatID, MinValue = vConfig.MinValue, MaxValue = vConfig.MaxValue})
 	end
 
@@ -221,24 +217,18 @@ function Outfitter:CollapseMetaSlotsIfBetter(pOutfit, pStat)
 		
 		local vCombinations
 		
-		if pStat.ID ~= "ITEM_LEVEL" then
-			vCombinations =
-			{
-				{MainHand = v1HItem, SecondaryHand = vOHItem, AllowEmptyMainHand = true},
-				{MainHand = v1HItem, SecondaryHand = vWeapon0Item, AllowEmptyMainHand = false},
-				{MainHand = v1HItem, SecondaryHand = vWeapon1Item, AllowEmptyMainHand = false},
-				{MainHand = vWeapon0Item, SecondaryHand = vOHItem, AllowEmptyMainHand = true},
-				{MainHand = vWeapon1Item, SecondaryHand = vOHItem, AllowEmptyMainHand = true},
-				{MainHand = vWeapon0Item, SecondaryHand = vWeapon1Item, AllowEmptyMainHand = false},
-			}
-		else
-			vCombinations =
-			{
-				{MainHand = v1HItem, SecondaryHand = vWeapon1Item, AllowEmptyMainHand = false},
-				{MainHand = vWeapon0Item, SecondaryHand = vOHItem, AllowEmptyMainHand = false},
-				{MainHand = vWeapon1Item, SecondaryHand = vOHItem, AllowEmptyMainHand = false},
-			}
-		end
+		-- Default set of combinations, now used for all stats including ITEM_LEVEL.
+		-- The previous special restriction for ITEM_LEVEL was found to be potentially
+		-- missing valid optimal pairings and lacked a clear documented rationale.
+		vCombinations =
+		{
+			{MainHand = v1HItem, SecondaryHand = vOHItem, AllowEmptyMainHand = true},       -- Standard MH + OH (or just OH if MH is empty and allowed)
+			{MainHand = v1HItem, SecondaryHand = vWeapon0Item, AllowEmptyMainHand = false},  -- Existing MH + item from Weapon0Slot as OH
+			{MainHand = v1HItem, SecondaryHand = vWeapon1Item, AllowEmptyMainHand = false},  -- Existing MH + item from Weapon1Slot as OH
+			{MainHand = vWeapon0Item, SecondaryHand = vOHItem, AllowEmptyMainHand = true},    -- Item from Weapon0Slot as MH + existing OH (or just OH if W0 is empty and allowed)
+			{MainHand = vWeapon1Item, SecondaryHand = vOHItem, AllowEmptyMainHand = true},    -- Item from Weapon1Slot as MH + existing OH (or just OH if W1 is empty and allowed)
+			{MainHand = vWeapon0Item, SecondaryHand = vWeapon1Item, AllowEmptyMainHand = false},-- Item from Weapon0Slot as MH + item from Weapon1Slot as OH (dual-wield from temp weapon slots)
+		}
 		
 		local vBestCombinationIndex = nil
 		local vBestCombinationValue = nil
@@ -374,46 +364,169 @@ function Outfitter:RunGeneticThread()
 end
 
 function Outfitter:CompareCompoundScores(pScore1, pScore2, pStatParams)
-	for vIndex, vScore1 in ipairs(pScore1) do
-		local vScore2 = pScore2[vIndex]
-		local vStatConfig = pStatParams[vIndex]
-		
-		if vScore1 == vScore2 then
-			-- Do nothing if they're equal
-		
-		elseif vStatConfig and vStatConfig.MinValue then
-			if vScore1 >= vStatConfig.MinValue
-			and vScore2 >= vStatConfig.MinValue then
-				return vScore1 < vScore2 -- The one closer to the minValue is better
-			else
-				return vScore1 > vScore2 -- The one closer to the minValue is better
+	-- Compares two compound scores (pScore1, pScore2) based on stat parameters (pStatParams).
+	-- Returns true if pScore1 is better, false if pScore2 is better or they are equivalent.
+	-- Iterates through each component of the scores. If a component in pScore1 is definitively
+	-- better than pScore2's component, returns true. If pScore2's is better, returns false.
+	-- If components are equal, it proceeds to the next component.
+	-- If all components are equal, pScore1 is not strictly better, so returns false.
+
+	for vIndex, vScore1_comp in ipairs(pScore1) do
+		local vScore2_comp = pScore2[vIndex]
+		local vStatConfig = pStatParams[vIndex] -- Config for the current stat component
+
+		if vScore1_comp == vScore2_comp then
+			-- Scores for this component are equal, do nothing and proceed to the next component.
+			-- If this is the last component, the overall result will be 'false' (pScore1 is not strictly better).
+		else
+			-- Scores for this component are different, determine which is better.
+			if vStatConfig and vStatConfig.MinValue then
+				-- This stat component has a MinValue constraint.
+				local s1_meets_min = (vScore1_comp >= vStatConfig.MinValue)
+				local s2_meets_min = (vScore2_comp >= vStatConfig.MinValue)
+
+				if s1_meets_min and s2_meets_min then
+					-- Both scores meet MinValue: the higher score is better.
+					if vScore1_comp > vScore2_comp then return true end
+					if vScore2_comp > vScore1_comp then return false end
+					-- If equal, this path shouldn't be taken due to outer 'if vScore1_comp == vScore2_comp'
+				elseif s1_meets_min then
+					-- Only score1 meets MinValue: score1 is better.
+					return true
+				elseif s2_meets_min then
+					-- Only score2 meets MinValue: score2 is better.
+					return false
+				else
+					-- Neither score meets MinValue: the one closer to MinValue (i.e., higher score) is considered "less bad".
+					if vScore1_comp > vScore2_comp then return true end
+					if vScore2_comp > vScore1_comp then return false end
+				end
+
+			elseif vStatConfig and vStatConfig.MaxValue then
+				-- This stat component has a MaxValue constraint.
+				local s1_meets_max = (vScore1_comp <= vStatConfig.MaxValue)
+				local s2_meets_max = (vScore2_comp <= vStatConfig.MaxValue)
+
+				if s1_meets_max and s2_meets_max then
+					-- Both scores are within MaxValue: the higher score is better.
+					if vScore1_comp > vScore2_comp then return true end
+					if vScore2_comp > vScore1_comp then return false end
+				elseif s1_meets_max then
+					-- Only score1 is within MaxValue: score1 is better.
+					return true
+				elseif s2_meets_max then
+					-- Only score2 is within MaxValue: score2 is better.
+					return false
+				else
+					-- Both scores exceed MaxValue: the one closer to MaxValue (i.e., lower score) is considered "less bad".
+					if vScore1_comp < vScore2_comp then return true end
+					if vScore2_comp < vScore1_comp then return false end
+				end
+			else 
+				-- No MinValue or MaxValue constraint for this stat component: higher score is better.
+				if vScore1_comp > vScore2_comp then return true end
+				-- No need for 'vScore2_comp > vScore1_comp then return false' here,
+				-- because if vScore1_comp is not greater and not equal, it must be less.
+				-- The loop will correctly interpret this by eventually returning false if no other component decides.
+				if vScore1_comp < vScore2_comp then return false end
 			end
-		
-		elseif vStatConfig and vStatConfig.MaxValue then
-			if vScore1 <= vStatConfig.MaxValue
-			and vScore2 <= vStatConfig.MaxValue then
-				return vScore1 > vScore2 -- The one closer to the maxValue is better
-			else
-				return vScore1 < vScore2 -- The one closer to the maxValue is better
-			end
-		
-		elseif vScore1 > vScore2 then
-			return true
-		elseif vScore1 < vScore2 then
-			return false
 		end
 	end
 
-	return false
+	-- If the loop completes, it means all components were equal or pScore2 was better/equal at some point
+	-- where a definitive decision for pScore1 wasn't made.
+	-- Therefore, pScore1 is not strictly better than pScore2.
+	return false 
+end
+
+-- Helper function to calculate fitness score for an outfit
+function Outfitter:_CalculateFitness(pOutfit, pStat, pStatParams)
+	return self:GetOutfitScoreWithEmptySlots(pOutfit, pStat, pStatParams)
+end
+
+-- Helper function to initialize the population
+function Outfitter:_InitializePopulation(pPopulationSize, pOutfitIterator, pStat, pStatParams)
+	local vCitizens = {}
+	local vNumOutfitsGenerated = 0
+	
+	for _ = 1, pPopulationSize do
+		local vOutfit = pOutfitIterator:GenerateRandomOutfit()
+		vOutfit.GeneticScore = self:_CalculateFitness(vOutfit, pStat, pStatParams)
+		table.insert(vCitizens, vOutfit)
+		vNumOutfitsGenerated = vNumOutfitsGenerated + 1
+	end
+	
+	return vCitizens, vNumOutfitsGenerated
+end
+
+-- Helper function to select two distinct parents
+function Outfitter:_SelectParents(pNumParents)
+	local vParentIndex1 = math.random(pNumParents)
+	local vParentIndex2 = math.random(pNumParents)
+	
+	if pNumParents > 1 then -- Ensure parents are distinct if possible
+		while vParentIndex2 == vParentIndex1 do
+			vParentIndex2 = math.random(pNumParents)
+		end
+	end
+	
+	return vParentIndex1, vParentIndex2
+end
+
+-- Helper function for crossover (mating)
+function Outfitter:_Crossover(pOutfitIterator, pParent1Outfit, pParent2Outfit)
+	return pOutfitIterator:SpliceOutfits(pParent1Outfit, pParent2Outfit)
+end
+
+-- Helper function for mutation
+function Outfitter:_Mutate(pOutfitIterator, pOutfit, pMutationRate)
+	pOutfitIterator:MutateOutfit(pOutfit, pMutationRate)
+end
+
+-- Helper function to check termination conditions and update progress description
+function Outfitter:_UpdateAndCheckTermination(pBestScore, pPreviousBestScoreString, pNoChangeCount, pMaxNoChangeCount, pCancelFlag, pCombiDialog, pStatName)
+	local vCurrentBestScoreString = ""
+	if pBestScore then
+		vCurrentBestScoreString = type(pBestScore) == "table" and table.concat(pBestScore, ", ") or tostring(pBestScore)
+	end
+
+	local vTerminate = false
+	local vNewNoChangeCount = pNoChangeCount
+	
+	if pPreviousBestScoreString ~= "" and pPreviousBestScoreString == vCurrentBestScoreString then
+		vNewNoChangeCount = vNewNoChangeCount + 1
+		if vNewNoChangeCount >= pMaxNoChangeCount then 
+			vTerminate = true
+		end
+	elseif pPreviousBestScoreString ~= vCurrentBestScoreString then 
+		vNewNoChangeCount = 0
+	end
+	
+	if pCancelFlag then
+		vTerminate = true
+	end
+
+	if pCombiDialog then
+		pCombiDialog:SetDescription(string.format("Best score for %s: %s", pStatName or "current stat", vCurrentBestScoreString))
+	end
+	
+	return vTerminate, vNewNoChangeCount, vCurrentBestScoreString
 end
 
 function Outfitter:SortCitizens(pCitizens, pStatParams)
+	if not pCitizens or #pCitizens == 0 then return end
+	if not pCitizens[1] or not pCitizens[1].GeneticScore then return end
+
 	if type(pCitizens[1].GeneticScore) == "table" then
 		table.sort(pCitizens, function (pOutfit1, pOutfit2)
+			if not pOutfit1 or not pOutfit1.GeneticScore then return false end 
+			if not pOutfit2 or not pOutfit2.GeneticScore then return true end 
 			return self:CompareCompoundScores(pOutfit1.GeneticScore, pOutfit2.GeneticScore, pStatParams)
 		end)
 	else
 		table.sort(pCitizens, function (pOutfit1, pOutfit2)
+			if not pOutfit1 or not pOutfit1.GeneticScore then return false end
+			if not pOutfit2 or not pOutfit2.GeneticScore then return true end
 			return pOutfit1.GeneticScore > pOutfit2.GeneticScore
 		end)
 	end
@@ -423,12 +536,11 @@ function Outfitter:FindGeneticCombinationThread(pName, pInventoryCache, pFilterS
 	assert(pCompletionFunc)
 	
 	local vMaxGenerations = 1000
-	local vPopulation = 300
+	local vPopulationSize = 300 
 	local vNumParents = 25
-	local vCitizens = {}
 	local vNumOutfitsGenerated = 0
 	local vMutationRate = 0.2
-	local vMaxNoChangeCount = 100
+	local vMaxNoChangeCount = 100 
 	
 	pInventoryCache:ResetIgnoreItemFlags()
 	
@@ -439,142 +551,121 @@ function Outfitter:FindGeneticCombinationThread(pName, pInventoryCache, pFilterS
 	
 	self:BeginCombiProgress(
 		string.format("Genetically optimizing %s for %s", pName, pStat.Name),
-		vMaxNoChangeCount,
-		function ()
-			vCancel = true
-		end,
+		vMaxNoChangeCount, 
+		function () vCancel = true end,
 		function (pSet)
-			if pSet then
-				vMaxYieldTime = 0.1
-			else
-				vMaxYieldTime = 0.02
-			end
+			if pSet then vMaxYieldTime = 0.1 else vMaxYieldTime = 0.02 end
 		end)
 	
-	--
-	
 	local vStartTime = GetTime()
-	local vLoopCountYieldFactor = 5000
+	local vLoopCountYieldFactor = 5000 
 	
-	if pStat.Begin then
-		pStat:Begin(pInventoryCache)
-	end
+	if pStat.Begin then pStat:Begin(pInventoryCache) end
 	
-	-- Generate the initial population and their scores
-	
-	for vCitizenIndex = 1, vPopulation do
-		local vOutfit = vOutfitIterator:GenerateRandomOutfit()
-		
-		vOutfit.GeneticScore = Outfitter:GetOutfitScoreWithEmptySlots(vOutfit, pStat, pStatParams)
-		
-		table.insert(vCitizens, vOutfit)
-		
-		vNumOutfitsGenerated = vNumOutfitsGenerated + 1
-	end
-	
-	-- Sort the initial population by score
+	-- 1. Initialization of population
+	local vCitizens, vInitialOutfitsGenerated = self:_InitializePopulation(vPopulationSize, vOutfitIterator, pStat, pStatParams)
+	vNumOutfitsGenerated = vNumOutfitsGenerated + vInitialOutfitsGenerated
 	
 	self:SortCitizens(vCitizens, pStatParams)
 	
-	--
-	
 	local vYieldTime = GetTime() + vMaxYieldTime
-	local vLoopCount = vLoopCountYieldFactor * vMaxYieldTime
-	local vPreviousBestScore, vBestScore
+	local vLoopCount = vLoopCountYieldFactor * vMaxYieldTime 
+	
+	local vPreviousBestScoreString = ""
+	if vCitizens and #vCitizens > 0 and vCitizens[1] and vCitizens[1].GeneticScore then
+		vPreviousBestScoreString = type(vCitizens[1].GeneticScore) == "table" and table.concat(vCitizens[1].GeneticScore, ", ") or tostring(vCitizens[1].GeneticScore)
+	end
+	if self.CombiProgressDialog then
+		self.CombiProgressDialog:SetDescription(string.format("Best score for %s: %s", pStat.Name, vPreviousBestScoreString))
+	end
+
 	local vNoChangeCount = 0
-	local vPreviousNoChangeCount
+	local vPreviousNoChangeCountForProgressDisplay
 	
 	for vGenerationIndex = 1, vMaxGenerations do
-		-- Mate the best parents randomly to generate new citizens
-		
-		for vChildIndex = vNumParents + 1, vPopulation do
-			local vParentIndex1 = math.random(vNumParents)
-			local vParentIndex2 = math.random(vNumParents)
+		for vChildIndex = vNumParents + 1, vPopulationSize do
+			-- 2. Parent selection
+			local vParentIndex1, vParentIndex2 = self:_SelectParents(vNumParents)
+			local vParent1Citizen = vCitizens[vParentIndex1] 
+			local vParent2Citizen = vCitizens[vParentIndex2]
+
+            if not vParent1Citizen or not vParent2Citizen then
+                goto NextChildInGenerationLoop 
+            end
 			
-			while vParentIndex2 == vParentIndex1 do
-				vParentIndex2 = math.random(vNumParents)
-			end
+			-- 3. Crossover (mating)
+			local vChildOutfit = self:_Crossover(vOutfitIterator, vParent1Citizen, vParent2Citizen)
 			
-			local vChildOutfit = vOutfitIterator:SpliceOutfits(vCitizens[vParentIndex1], vCitizens[vParentIndex2])
+			-- 4. Mutation
+			self:_Mutate(vOutfitIterator, vChildOutfit, vMutationRate)
 			
-			vOutfitIterator:MutateOutfit(vChildOutfit, vMutationRate)
+			-- 5. Fitness calculation for the new child
+			vChildOutfit.GeneticScore = self:_CalculateFitness(vChildOutfit, pStat, pStatParams)
 			
-			vChildOutfit.GeneticScore = Outfitter:GetOutfitScoreWithEmptySlots(vChildOutfit, pStat, pStatParams)
-			
-			vCitizens[vChildIndex] = vChildOutfit
-			
+			vCitizens[vChildIndex] = vChildOutfit 
 			vNumOutfitsGenerated = vNumOutfitsGenerated + 1
 			
+			::NextChildInGenerationLoop:: 
+
 			vLoopCount = vLoopCount - 1
 			if GetTime() >= vYieldTime or vLoopCount <= 0 then
 				coroutine.yield()
 				vYieldTime = GetTime() + vMaxYieldTime
-				vLoopCount = vLoopCountYieldFactor * vMaxYieldTime
+				vLoopCount = vLoopCountYieldFactor * vMaxYieldTime 
 			end
 			
-			if vCancel then
-				break
-			end
+			if vCancel then break end 
 		end
 		
-		-- Sort the new population by score
+		if vCancel then break end 
 		
 		self:SortCitizens(vCitizens, pStatParams)
 		
-		--
+		local vCurrentBestCitizenScore = (vCitizens and #vCitizens > 0 and vCitizens[1]) and vCitizens[1].GeneticScore or nil
 		
-		if not vPreviousNoChangeCount
-		or vNoChangeCount > vPreviousNoChangeCount then
+		-- 6. Termination condition checking
+		local vTerminate, vNewNoChangeCount, vCurrentBestScoreString = self:_UpdateAndCheckTermination(
+			vCurrentBestCitizenScore, vPreviousBestScoreString, vNoChangeCount, vMaxNoChangeCount, vCancel, self.CombiProgressDialog, pStat.Name
+		)
+		vNoChangeCount = vNewNoChangeCount
+		vPreviousBestScoreString = vCurrentBestScoreString
+
+		if not vPreviousNoChangeCountForProgressDisplay or vNoChangeCount > vPreviousNoChangeCountForProgressDisplay or vNoChangeCount == 0 then
 			self:UpdateCombiProgress(vNoChangeCount)
-			vPreviousNoChangeCount = vNoChangeCount
+			vPreviousNoChangeCountForProgressDisplay = vNoChangeCount
 		end
 		
-		vBestScore = vCitizens[1].GeneticScore
-		
-		if type(vBestScore) == "table" then
-			vBestScore = table.concat(vBestScore, ", ")
-		end
-		
-		if vPreviousBestScore == vBestScore then
-			vNoChangeCount = vNoChangeCount + 1
-			
-			if vNoChangeCount > vMaxNoChangeCount then
-				break
-			end
-		else
-			vNoChangeCount = 0
-			vPreviousBestScore = vBestScore
-		end
-		
-		self.CombiProgressDialog:SetDescription(string.format("Best score: %s", tostring(vBestScore)))
-		
-		if vCancel then
-			break
-		end
+		if vTerminate then break end 
 	end
 	
-	if pStat.End then
-		pStat:End(pInventoryCache)
-	end
+	if pStat.End then pStat:End(pInventoryCache) end
 	
 	local vEndTime = GetTime()
-	
-	--
-	
 	self:EndCombiProgress()
-	self.FindGeneticCombinationCoroutineRef = nil
+	self.FindGeneticCombinationCoroutineRef = nil 
 	
 	if not vCancel then
+		local vBestFinalCitizen = (vCitizens and #vCitizens > 0 and vCitizens[1]) or nil
+		local vFinalBestScoreString = vPreviousBestScoreString 
+
 		local vElapsedTime = vEndTime - vStartTime
+		if vElapsedTime <= 0 then vElapsedTime = 1 end 
+
 		Outfitter:NoteMessage(
 			"Checked %s outfits in %s seconds (%s outfits per second)",
 			Outfitter:FormatThousands(vNumOutfitsGenerated),
 			math.floor(vElapsedTime),
-			Outfitter:FormatThousands(vNumOutfitsGenerated / vElapsedTime))
+			Outfitter:FormatThousands(math.floor(vNumOutfitsGenerated / vElapsedTime)))
 		
-		Outfitter:NoteMessage("Best outfit score: %s", tostring(vBestScore))
+		Outfitter:NoteMessage("Best outfit score for %s: %s", pStat.Name, vFinalBestScoreString)
 		
-		pCompletionFunc(vCitizens[1])
+		if vBestFinalCitizen then
+			pCompletionFunc(vBestFinalCitizen)
+		else
+			pCompletionFunc(nil) 
+		end
+	else
+		pCompletionFunc(nil) 
 	end
 end
 
@@ -665,7 +756,7 @@ function Outfitter._OutfitIterator:Construct(pName, pInventoryCache, pFilterStat
 	self.NumCombinations = 1
 	
 	if Outfitter.Debug.Optimize then
-		print(pFilterStats)
+		Outfitter:DebugMessage("pFilterStats in _OutfitIterator:Construct: %s", tostring(pFilterStats))
 	end
 	
 	for vInventorySlot, vItems in pairs(pInventoryCache.ItemsBySlot) do
@@ -856,20 +947,11 @@ function Outfitter._OutfitIterator:SpliceOutfits(pOutfit1, pOutfit2)
 		local vItem = (math.random() < 0.5) and pOutfit1.Items[vItems.ItemSlotName] or pOutfit2.Items[vItems.ItemSlotName]
 		local vAltSlotName = Outfitter.cFullAlternateStatSlot[vItems.ItemSlotName]
 		
-		-- This may need more work, but I'm not sure.  If the same item gets selected
-		-- for two slots (trinket 1 and 2, ring 1 and 2, etc.) then it can't be used.
-		-- Right now I just punt and leave one of them empty, but this isn't optimal of course.
-		-- I think it may not matter though since that outfit will be genetically inferior
-		-- to other outfits and will get weeded out.
-		
 		if not vAltSlotName
 		or vOutfit.Items[vAltSlotName] ~= vItem then
 			vOutfit.Items[vItems.ItemSlotName] = vItem
 		end
 	end
-	
-	-- Remove the OH choice if there's a 2H in the MH and
-	-- they can't dual-wield
 	
 	if vOutfit.Items.MainHandSlot
 	and vOutfit.Items.MainHandSlot.InvType == "INVTYPE_2HWEAPON"
@@ -887,9 +969,6 @@ function Outfitter._OutfitIterator:MutateOutfit(pOutfit, pMutationRate)
 		end
 	end
 	
-	-- Remove the OH choice if there's a 2H in the MH and
-	-- they can't dual-wield
-	
 	if pOutfit.Items.MainHandSlot
 	and pOutfit.Items.MainHandSlot.InvType == "INVTYPE_2HWEAPON"
 	and not Outfitter.CanDualWield2H then
@@ -897,25 +976,30 @@ function Outfitter._OutfitIterator:MutateOutfit(pOutfit, pMutationRate)
 	end
 end
 
-local gOutfitter_CompareStat
+function Outfitter._OutfitIterator:SortItemsByStat(pStatID) -- pStatID is the string key for the stat, e.g., "CRIT"
+	if not pStatID then return end -- Do nothing if no stat ID is provided
 
-function Outfitter._OutfitIterator:SortItemsByStat(pStat)
-	gOutfitter_CompareStat = pStat
-	
 	for _, vSlotInfo in ipairs(self.Slots) do
-		table.sort(vSlotInfo.Items,
-			function (pItem1, pItem2)
-				local vStat1, vStat2 = pItem1[gOutfitter_CompareStat], pItem2[gOutfitter_CompareStat]
-				
-				if vStat1 == nil then
-					return vStat2 ~= nil
-				elseif not vStat2 then
-					return false
-				else
-					return vStat1 < vStat2
+		if vSlotInfo.Items and #vSlotInfo.Items > 0 then
+			table.sort(vSlotInfo.Items,
+				function (pItem1, pItem2)
+					-- Ensure pItem1 and pItem2 and their .Stats tables are valid before indexing
+					local vStat1 = (pItem1 and pItem1.Stats) and pItem1.Stats[pStatID] or nil
+					local vStat2 = (pItem2 and pItem2.Stats) and pItem2.Stats[pStatID] or nil
+					
+					if vStat1 == nil and vStat2 == nil then
+						return false -- Both nil, treat as equal in terms of this stat; maintain original order relative to each other
+					elseif vStat1 == nil then
+						return false -- Only vStat1 is nil, so pItem2 (which has the stat) comes first
+					elseif vStat2 == nil then
+						return true  -- Only vStat2 is nil, so pItem1 (which has the stat) comes first
+					else
+						-- Both items have the stat, sort by value (ascending)
+						return vStat1 < vStat2
+					end
 				end
-			end
-		)
+			)
+		end
 	end
 end
 
@@ -1064,7 +1148,7 @@ function Outfitter._MultiStatConfig:GetConfig()
 	local vStat = Outfitter:GetStatByID(vConfig[1].StatID)
 
 	if not vStat then
-		Outfitter:ErrorMessage("Unknown stat ID: %s", tostring(vConfig.StatID))
+		Outfitter:ErrorMessage("Unknown stat ID: %s", tostring(vConfig[1].StatID)) -- Corrected indexing
 	else
 		vConfig.Complex = #vConfig > 1
 					   or vStat.Complex
@@ -1088,7 +1172,7 @@ function Outfitter._MultiStatConfig:AdjustSize()
 	local vHeight = 0
 	
 	for vIndex, vConfigLine in ipairs(self.ConfigLines) do
-		if not vConfigLine:IsShown() then
+		if not vConfigLine:IsShown() then -- Check vConfigLine itself, not vConfigLine:IsShown() which might be nil
 			break
 		end
 		
@@ -1117,7 +1201,8 @@ function Outfitter._MultiStatConfigLine:Construct(pParent, pIndex, pCanDelete)
 	self.StatMenu = Outfitter:New(Outfitter.UIElementsLib._TitledDropDownMenuButton, self, function (...) self:StatMenuFunc(...) end)
 	self.StatMenu:SetTitle(string.format("Stat %d", pIndex))
 	self.StatMenu.ItemClickedFunc = function (pMenu, pValue)
-		self:SetStatID(pValue)
+		local stat = Outfitter.StatCategories[pMenu:GetParent().Value]:GetIndexedStat(pValue) -- Example of how to get stat from menu value
+		self:SetStatID(stat.ID)
 		if self.OnChange then
 			self:OnChange()
 		end
@@ -1125,7 +1210,7 @@ function Outfitter._MultiStatConfigLine:Construct(pParent, pIndex, pCanDelete)
 	
 	self.OpMenu = Outfitter:New(Outfitter.UIElementsLib._TitledDropDownMenuButton, self, function (...) self:OpMenuFunc(...) end)
 	self.OpMenu.ItemClickedFunc = function (pMenu, pValue)
-		self:SetOp(pValue)
+		self:SetOp(pValue) -- pValue here should be "MAX", "LT", "GT"
 		if self.OnChange then
 			self:OnChange()
 		end
@@ -1148,8 +1233,6 @@ function Outfitter._MultiStatConfigLine:Construct(pParent, pIndex, pCanDelete)
 		end)
 	end
 	
-	-- Arrange the layout
-	
 	self.StatMenu:SetWidth(120)
 	self.OpMenu:SetWidth(60)
 	self.MinValue:SetWidth(80)
@@ -1167,46 +1250,41 @@ function Outfitter._MultiStatConfigLine:Construct(pParent, pIndex, pCanDelete)
 end
 
 function Outfitter._MultiStatConfigLine:StatMenuFunc(menu)
-	for _, category in ipairs(Outfitter.StatCategories) do
-		menu:AddSelect(category.Name, function ()
-			local items = {}
-			local numStats = category:GetNumStats()
-			for statIndex = 1, numStats do
-				local stat = category:GetIndexedStat(statIndex)
-				table.insert(items, stat.Name)
-			end
-			return items
-		end, function ()
-			local numStats = category:GetNumStats()
-			for statIndex = 1, numStats do
-				local stat = category:GetIndexedStat(statIndex)
-				if stat.ID == self.StatID then
-					return statIndex
-				end
-			end
-		end, function (menu, value)
-			local stat = category:GetIndexedStat(value)
-			self:SetStatID(stat.ID)
-		end)
-	end
+    for catIndex, category in ipairs(Outfitter.StatCategories) do
+        local categoryItems = {}
+        for statIndex = 1, category:GetNumStats() do
+            local stat = category:GetIndexedStat(statIndex)
+            table.insert(categoryItems, {text = stat.Name, value = stat.ID}) -- Store ID as value
+        end
+
+        menu:AddSelectGroup(category.Name, categoryItems,
+            function(button, selectedValue) -- onSelect
+                self:SetStatID(selectedValue)
+				if self.OnChange then self.OnChange() end
+            end,
+            function() -- getCurrentValue
+                return self.StatID
+            end
+        )
+    end
 end
 
+
 function Outfitter._MultiStatConfigLine:OpMenuFunc(menu)
-	menu:AddToggle("Max",
-		function ()
-		end, function (menu, value)
-			self:SetOp("MAX")
-		end)
-	menu:AddToggle("<=",
-		function ()
-		end, function (menu, value)
-			self:SetOp("LT")
-		end)
-	menu:AddToggle(">=",
-		function ()
-		end, function (menu, value)
-			self:SetOp("GT")
-		end)
+    local opItems = {
+        {text = "Max", value = "MAX"},
+        {text = "<=", value = "LT"},
+        {text = ">=", value = "GT"}
+    }
+    menu:AddToggleGroup(opItems,
+        function(button, selectedValue) -- onSelect
+            self:SetOp(selectedValue)
+			if self.OnChange then self.OnChange() end
+        end,
+        function() -- getCurrentValue
+            return self.Op
+        end
+    )
 end
 
 function Outfitter._MultiStatConfigLine:SetStatID(statID)
@@ -1234,34 +1312,43 @@ end
 
 function Outfitter._MultiStatConfigLine:SetConfig(pConfig)
 	if not pConfig then
-		self:SetStatID("STA")
-		self:SetOp("MAX")
+		self:SetStatID("STA") -- Default Stat
+		self:SetOp("MAX")     -- Default Op
 		self.MinValue:SetText("")
 	else
-		self:SetStatID(pConfig.StatID)
+		self:SetStatID(pConfig.StatID or "STA")
 		
-		self:SetOp((pConfig.MinValue and "GT")
-				or (pConfig.MaxValue and "LT")
-				or "MAX")
+		local op = "MAX"
+		if pConfig.MinValue then op = "GT"
+		elseif pConfig.MaxValue then op = "LT"
+		end
+		self:SetOp(op)
 		
 		self.MinValue:SetText(pConfig.MinValue or pConfig.MaxValue or "")
 	end
 end
 
 function Outfitter._MultiStatConfigLine:GetConfig()
-	local vMinValue = tonumber(self.MinValue:GetText())
+	local vValueText = self.MinValue:GetText()
+	local vValue = tonumber(vValueText)
+	
 	local vStatID = self.StatID
 	local vOp = self.Op
 	
-	local vValue = tonumber(self.MinValue:GetText())
-	local vMinValue = vOp == "GT" and vValue or nil
-	local vMaxValue = vOp == "LT" and vValue or nil
+	local vMinValue = nil
+	local vMaxValue = nil
+
+	if vOp == "GT" then
+		vMinValue = vValue
+	elseif vOp == "LT" then
+		vMaxValue = vValue
+	end
 	
 	local vConfig =
 	{
 		StatID = vStatID,
 		MinValue = vMinValue,
-		MaxValue = vMaxValue
+		MaxValue = vMaxValue,
 	}
 	
 	return vConfig
